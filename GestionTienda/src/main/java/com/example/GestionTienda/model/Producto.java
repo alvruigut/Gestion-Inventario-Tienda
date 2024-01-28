@@ -1,9 +1,7 @@
 package com.example.GestionTienda.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
+import com.example.GestionTienda.util.BaseEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class Producto extends BaseEntity{
+public class Producto extends BaseEntity {
 
 
     private String nombre;
@@ -24,7 +22,8 @@ public class Producto extends BaseEntity{
     private String descripcion;
     private String imagen;
     private boolean disponible;
-    @Transient
-    private Integer productoCategoriaId;
+    @ManyToOne
+    @JoinColumn(name = "categoria_id",referencedColumnName = "id")
+    private Categoria categoria;
     
 }
