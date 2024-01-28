@@ -2,10 +2,7 @@ package com.example.GestionTienda.model;
 
 import com.example.GestionTienda.util.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
@@ -13,8 +10,9 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Producto extends BaseEntity {
+@Builder
+@Data
+public class Producto  extends BaseEntity{
 
     @Column(name = "nombre")
     private String nombre;
