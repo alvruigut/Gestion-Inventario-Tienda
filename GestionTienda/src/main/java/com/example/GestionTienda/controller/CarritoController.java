@@ -1,5 +1,7 @@
 package com.example.GestionTienda.controller;
 
-public class CarritoController {
+import com.example.GestionTienda.util.BaseEntity;
+
+public class CarritoController extends BaseEntity {
     
 }
