@@ -13,14 +13,18 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
+
 public class Producto extends BaseEntity {
 
-
+    @Column(name = "nombre")
     private String nombre;
+    @Column(name = "precio")
     private double precio;
+    @Column(name = "descripcion")
     private String descripcion;
+    @Column(name = "imagen")
     private String imagen;
+    @Column(name = "disponible")
     private boolean disponible;
     @ManyToOne
     @JoinColumn(name = "categoria_id",referencedColumnName = "id")
