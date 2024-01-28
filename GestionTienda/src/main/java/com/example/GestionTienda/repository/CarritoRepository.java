@@ -1,5 +1,10 @@
 package com.example.GestionTienda.repository;
 
-public class CarritoRepository {
+import com.example.GestionTienda.util.BaseEntity;
+
+
+public class CarritoRepository extends BaseEntity{
+
+    
     
 }
