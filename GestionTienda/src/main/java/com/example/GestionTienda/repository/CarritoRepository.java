@@ -1,9 +1,13 @@
 package com.example.GestionTienda.repository;
 
-import com.example.GestionTienda.util.BaseEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.GestionTienda.model.Carrito;
 
-public class CarritoRepository extends BaseEntity{
+public interface CarritoRepository extends JpaRepository<Carrito,Long>{
+
+    
+
 
     
     

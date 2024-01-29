@@ -1,14 +1,11 @@
 package com.example.GestionTienda.model;
 import java.util.List;
+import jakarta.persistence.OneToMany;
 
-import com.example.GestionTienda.util.BaseEntity;
+public class Inventario{
 
-
-public class Inventario extends BaseEntity{
-    
-
-
-    List<Producto> productos;
+    @OneToMany
+    private List<Producto> productos;
 
 
 }

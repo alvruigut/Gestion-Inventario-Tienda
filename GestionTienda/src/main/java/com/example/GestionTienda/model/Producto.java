@@ -3,7 +3,6 @@ package com.example.GestionTienda.model;
 import com.example.GestionTienda.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
@@ -11,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+@Table(name = "producto")
 public class Producto  extends BaseEntity{
 
     @Column(name = "nombre")
