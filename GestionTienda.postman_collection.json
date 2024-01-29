@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "c2b4c38b-a22a-4bc7-88be-7a33fa4ce19c",
+		"name": "GestionTienda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30102197"
+	},
+	"item": [
+		{
+			"name": "findAll",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/api/productos/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"productos",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \r\n    \"imagen\": \"url_de_tu_imagen\",\r\n    \"nombre\": \"nombre_del_producto\",\r\n    \"descripcion\": \"descripcion_del_producto\",\r\n    \"precio\": 100.0,\r\n    \"disponible\": true,\r\n    \"categoria\": {\r\n        \"id\": 1,\r\n        \"nombre\": \"refresco\"\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/api/productos/nuevo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"productos",
+						"nuevo"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

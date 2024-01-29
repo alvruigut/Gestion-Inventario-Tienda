@@ -2,7 +2,10 @@ package com.example.GestionTienda.service;
 
 import java.beans.Transient;
 import java.util.List;
+import java.util.Optional;
 
+import com.example.GestionTienda.Dto.GetProductoDto;
+import com.example.GestionTienda.Dto.PostProductoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -13,10 +16,12 @@ import com.example.GestionTienda.repository.ProductoRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+
 public class ProductoService {
     
    @Autowired
     private ProductoRepository productoRepository;
+
     private CategoriaService categoriaService; 
     private CarritoService carritoService;
 
@@ -29,5 +34,41 @@ public class ProductoService {
     public List<Producto> findAll() throws DataAccessException {
         return productoRepository.findAll();
     }
+
+    //listar todos los productos que esten disponibles
+    public List<GetProductoDto> findallDisponibles(){
+       List<GetProductoDto> getProductoDtos = productoRepository.listaDeProductosDisponibles();
+        if (getProductoDtos.isEmpty()){
+         throw new RuntimeException("No hay productos disponibles");
+        }else{
+         return  getProductoDtos;
+        }
+    }
+
+    //crear un nuevo producto
+    public PostProductoDto crearNuevoProducto(PostProductoDto postProductoDto){
+
+     Producto producto = Producto.builder()
+             .nombre(postProductoDto.nombre())
+             .descripcion(postProductoDto.descripcion())
+             .precio(postProductoDto.precio())
+             .disponible(true)
+             .categoria(postProductoDto.categoria())
+             .imagen(postProductoDto.imagen())
+             .build();
+     producto = productoRepository.save(producto);
+     return PostProductoDto.of(producto);
+    }
+
+   //editar un producto
+/* public PostProductoDto editarProducto(String nombreProducto,PostProductoDto postProductoDto){
+  Optional<PostProductoDto> postProductoDto1 = productoRepository.findByNombreIgnoreCase(nombreProducto);
+     if (postProductoDto1.isPresent()){
+      return postProductoDto1.map(p->{
+
+      })
+     }
+ }*/
+
 
 }

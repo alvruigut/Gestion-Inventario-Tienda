@@ -2,13 +2,13 @@ package com.example.GestionTienda.controller;
 
 import java.util.List;
 
+import com.example.GestionTienda.Dto.GetProductoDto;
+import com.example.GestionTienda.Dto.PostProductoDto;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.GestionTienda.model.Producto;
 import com.example.GestionTienda.service.ProductoService;
@@ -20,15 +20,27 @@ public class ProductoController {
     ProductoService productoService;
 
 
+     @GetMapping(value = "/{id}")
+     public ResponseEntity<Producto> getProductById(@PathVariable("id") int id) {
+          return new ResponseEntity<>(productoService.findById(id), HttpStatus.OK);
+      }
 
-   @GetMapping(value = "/{id}") 
-   public ResponseEntity<Producto> getProductById(@PathVariable("id") int id) {
-		return new ResponseEntity<>(productoService.findById(id), HttpStatus.OK);
-	}
-
-    @GetMapping(value = "/all")
-    public List<Producto> getAllProducts() {
-        return productoService.findAll();
+      @GetMapping(value = "/all")
+      public List<Producto> getAllProducts() {
+          return productoService.findAll();
+      }
+    @GetMapping("/all2")
+    public ResponseEntity<List<GetProductoDto>> findall() {
+        List<GetProductoDto> getProductoDtos = productoService.findallDisponibles();
+        return ResponseEntity.ok(getProductoDtos);
     }
+
+    @PostMapping("/nuevo")
+    public ResponseEntity<PostProductoDto> crearNuevoProducto(@RequestBody PostProductoDto postProductoDto) {
+        PostProductoDto postProductoDto1 = productoService.crearNuevoProducto(postProductoDto);
+        return ResponseEntity.ok(postProductoDto1);
+    }
+
+
 
 }
