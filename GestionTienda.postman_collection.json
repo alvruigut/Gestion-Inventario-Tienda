@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "c2b4c38b-a22a-4bc7-88be-7a33fa4ce19c",
+		"_postman_id": "60de4e64-3a66-4b0d-994c-acd82ab744ec",
 		"name": "GestionTienda",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "30102197"
+		"_exporter_id": "26145027"
 	},
 	"item": [
 		{
@@ -52,6 +52,27 @@
 						"api",
 						"productos",
 						"nuevo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindProductId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/api/productos/100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"productos",
+						"100"
 					]
 				}
 			},
