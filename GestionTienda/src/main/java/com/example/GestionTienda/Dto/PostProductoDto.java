@@ -3,8 +3,7 @@ package com.example.GestionTienda.Dto;
 import com.example.GestionTienda.model.Categoria;
 import com.example.GestionTienda.model.Producto;
 
-import java.util.List;
-import java.util.Locale;
+
 
 public record PostProductoDto(String imagen,
                               String nombre,

@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.example.GestionTienda.Dto.GetProductoDto;
 import com.example.GestionTienda.Dto.PostProductoDto;
-import jakarta.annotation.PostConstruct;
+import com.example.GestionTienda.Dto.PutProductoDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +26,7 @@ public class ProductoController {
           return new ResponseEntity<>(productoService.findById(id), HttpStatus.OK);
       }
 
-      @GetMapping(value = "/all")
-      public List<Producto> getAllProducts() {
-          return productoService.findAll();
-      }
-    @GetMapping("/all2")
+    @GetMapping("/all")
     public ResponseEntity<List<GetProductoDto>> findall() {
         List<GetProductoDto> getProductoDtos = productoService.findallDisponibles();
         return ResponseEntity.ok(getProductoDtos);
@@ -42,5 +39,10 @@ public class ProductoController {
     }
 
 
+    @PutMapping("/actualizar/{nombre}")
+    public ResponseEntity<Producto> actualizarProducto(@PathVariable("nombre") String nombre, @RequestBody PutProductoDto producto) {
+        Producto productoEditado = productoService.editarProducto(nombre, producto);
+        return productoEditado != null ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+    }
 
 }

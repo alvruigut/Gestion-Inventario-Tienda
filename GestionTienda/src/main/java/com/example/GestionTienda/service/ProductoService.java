@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import com.example.GestionTienda.Dto.GetProductoDto;
 import com.example.GestionTienda.Dto.PostProductoDto;
+import com.example.GestionTienda.Dto.PutProductoDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -47,7 +49,6 @@ public class ProductoService {
 
     //crear un nuevo producto
     public PostProductoDto crearNuevoProducto(PostProductoDto postProductoDto){
-
      Producto producto = Producto.builder()
              .nombre(postProductoDto.nombre())
              .descripcion(postProductoDto.descripcion())
@@ -61,14 +62,19 @@ public class ProductoService {
     }
 
    //editar un producto
-/* public PostProductoDto editarProducto(String nombreProducto,PostProductoDto postProductoDto){
-  Optional<PostProductoDto> postProductoDto1 = productoRepository.findByNombreIgnoreCase(nombreProducto);
-     if (postProductoDto1.isPresent()){
-      return postProductoDto1.map(p->{
+    public Producto editarProducto(String nombreProducto,PutProductoDto producto) throws DataAccessException{
+        Producto productoExistente = productoRepository.findByName(nombreProducto);
+        if (productoExistente == null){
+            throw new RuntimeException("No existe el producto");
+     }else{
+            productoExistente.setNombre(producto.getNombre());
+            productoExistente.setDescripcion(producto.getDescripcion());
+            productoExistente.setPrecio(producto.getPrecio());
+            productoExistente.setDisponible(producto.isDisponible());
+            productoExistente.setCategoria(producto.getCategoria());
+        }
 
-      })
-     }
- }*/
-
+        return productoRepository.save(productoExistente);
+    }
 
 }

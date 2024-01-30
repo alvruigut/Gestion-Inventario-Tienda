@@ -2,6 +2,7 @@ package com.example.GestionTienda.repository;
 
 import com.example.GestionTienda.Dto.GetProductoDto;
 import com.example.GestionTienda.Dto.PostProductoDto;
+import com.example.GestionTienda.Dto.PutProductoDto;
 import com.example.GestionTienda.model.Producto;
 
 import java.util.List;
@@ -26,5 +27,7 @@ public interface ProductoRepository extends JpaRepository<Producto,Long> {
 
     Optional<PostProductoDto> findByNombreIgnoreCase(String nombre);
 
+    @Query("select p from Producto p where p.nombre = :nombre")
+    Producto findByName(String nombre);
 
 }
