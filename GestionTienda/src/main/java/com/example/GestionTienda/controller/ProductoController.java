@@ -25,7 +25,6 @@ public class ProductoController {
      public ResponseEntity<Producto> getProductById(@PathVariable("id") int id) {
           return new ResponseEntity<>(productoService.findById(id), HttpStatus.OK);
       }
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     public ResponseEntity<List<GetProductoDto>> findall() {
         List<GetProductoDto> getProductoDtos = productoService.findallDisponibles();
