@@ -6,7 +6,7 @@ insert into Categoria(id,nombre) values (5,'bebida alcoholica')
 insert into Categoria(id,nombre) values (6,'fruta')
 insert into Categoria(id,nombre) values (7,'verdura')
 
-insert into Producto (id,nombre,precio,descripcion,imagen,disponible,categoria_id) values (100,'coca',5.0,'bien fresquita',null,false,1)
+insert into Producto (id,nombre,precio,descripcion,imagen,disponible,categoria_id) values (100,'coca',5.5,'bien fresquita',null,false,1)
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,categoria_id) values (200,'fanta',5.0,'bien fresquita',null,true,1)
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,categoria_id) values (300,'chicles',1.0,'pa masticar',null,true,2)
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,categoria_id) values (400,'patatas',1.0,'pa masticar',null,true,3)
@@ -19,4 +19,3 @@ insert into Producto (id,nombre,precio,descripcion,imagen,disponible,categoria_i
 --insert into Carrito(id, cantidad, producto_id) values (1, 2, 1)
 --insert into Carrito(id, cantidad, producto_id) values (2, 4, 2)
 --insert into Carrito(id, cantidad, producto_id) values (3, 7, 3)
-
