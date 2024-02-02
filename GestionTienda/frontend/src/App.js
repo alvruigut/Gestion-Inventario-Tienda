@@ -1,6 +1,10 @@
 import './App.css';
 import {BrowserRouter as Router, Route, Routes,Link}from 'react-router-dom';
 import { Fragment } from 'react';
+import { AllProducts } from './producto/AllProducts';
+import { Carrito } from './carrito/Carrito';
+import { CrearProducto } from './producto/CrearProducto';
+
 
 function HomePage() {
   return (
@@ -17,17 +21,7 @@ function HomePage() {
   )
 }
 
-function AllProducts() {
-  return (
-      <div className='App-header'>
-        <h1>Todos Los Productos</h1>
-        <ul>
-          <li> 
-            <Link to="/">Pantalla Inicial</Link>
-          </li>
-        </ul>
-      </div>
-  )}
+
 
 function App() {
   return (
@@ -36,6 +30,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage/>}> </Route>
           <Route path="/all" element={ <AllProducts/>} ></Route>
+          <Route path="/carrito" element={ <Carrito/>} ></Route>
+          <Route path="/crear" element={ <CrearProducto/>} ></Route>
         </Routes>
       </main>  
     </Router>

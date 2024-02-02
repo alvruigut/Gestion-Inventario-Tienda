@@ -25,13 +25,11 @@ public class ProductoController {
      public ResponseEntity<Producto> getProductById(@PathVariable("id") int id) {
           return new ResponseEntity<>(productoService.findById(id), HttpStatus.OK);
       }
-
     @GetMapping("/all")
     public ResponseEntity<List<GetProductoDto>> findall() {
         List<GetProductoDto> getProductoDtos = productoService.findallDisponibles();
         return ResponseEntity.ok(getProductoDtos);
     }
-
     @PostMapping("/nuevo")
     public ResponseEntity<PostProductoDto> crearNuevoProducto(@RequestBody PostProductoDto postProductoDto) {
         PostProductoDto postProductoDto1 = productoService.crearNuevoProducto(postProductoDto);
