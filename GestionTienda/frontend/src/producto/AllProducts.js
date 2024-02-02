@@ -17,10 +17,10 @@ export function AllProducts() {
     return (
       <div className='App-header'>
         <h1>Todos Los Productos</h1>
+        <Link to="/carrito">Ver Carrito</Link>
+        <Link to="/">Pantalla Inicial</Link>
+        <Link to="/crear">Crear Producto</Link>
         <ul>
-          <li> 
-            <Link to="/">Pantalla Inicial</Link>
-          </li>
           {products.map(product => (
            <li key={product.id}>
              {product.nombre}: {product.precio} €

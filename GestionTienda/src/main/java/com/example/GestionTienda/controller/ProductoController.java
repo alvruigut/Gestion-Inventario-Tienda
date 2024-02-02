@@ -30,7 +30,6 @@ public class ProductoController {
         List<GetProductoDto> getProductoDtos = productoService.findallDisponibles();
         return ResponseEntity.ok(getProductoDtos);
     }
-
     @PostMapping("/nuevo")
     public ResponseEntity<PostProductoDto> crearNuevoProducto(@RequestBody PostProductoDto postProductoDto) {
         PostProductoDto postProductoDto1 = productoService.crearNuevoProducto(postProductoDto);

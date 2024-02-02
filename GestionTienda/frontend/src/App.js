@@ -1,8 +1,11 @@
 import './App.css';
-import {BrowserRouter as Router, Route, Routes,Link, Form}from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes,Link}from 'react-router-dom';
 import { Fragment } from 'react';
-import { useState, useEffect } from 'react';
 import { AllProducts } from './producto/AllProducts';
+import { Carrito } from './carrito/Carrito';
+import { CrearProducto } from './producto/CrearProducto';
+
+
 function HomePage() {
   return (
     <Fragment>
@@ -27,6 +30,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage/>}> </Route>
           <Route path="/all" element={ <AllProducts/>} ></Route>
+          <Route path="/carrito" element={ <Carrito/>} ></Route>
+          <Route path="/crear" element={ <CrearProducto/>} ></Route>
         </Routes>
       </main>  
     </Router>
