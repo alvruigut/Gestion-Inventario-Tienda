@@ -8,6 +8,8 @@ import com.example.GestionTienda.Dto.GetProductoDto;
 import com.example.GestionTienda.Dto.PostProductoDto;
 import com.example.GestionTienda.Dto.PutProductoDto;
 
+import com.example.GestionTienda.model.Carrito;
+import com.example.GestionTienda.repository.CarritoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class ProductoService {
 
     private CategoriaService categoriaService; 
     private CarritoService carritoService;
+
+    private CarritoRepository carritoRepository;
 
 	@Transactional(readOnly = true)
 	public Producto findById(int id) throws DataAccessException {
@@ -75,6 +79,16 @@ public class ProductoService {
         }
 
         return productoRepository.save(productoExistente);
+    }
+    public Optional<Producto> obtenerProductoPorId(Long productoId) {
+        Optional<Producto> productoOptional = productoRepository.findById(productoId);
+
+        if (productoOptional.isPresent()){
+            return productoOptional;
+        }else {
+            throw new RuntimeException("error");
+        }
+
     }
 
 }
