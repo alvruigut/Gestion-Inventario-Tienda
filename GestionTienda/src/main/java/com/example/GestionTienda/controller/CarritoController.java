@@ -3,6 +3,7 @@ import com.example.GestionTienda.Dto.LineaCarritoDto;
 
 import com.example.GestionTienda.model.Carrito;
 import com.example.GestionTienda.model.Producto;
+import com.example.GestionTienda.repository.CarritoRepository;
 import com.example.GestionTienda.service.CarritoService;
 import com.example.GestionTienda.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,26 @@ public class CarritoController {
 
     @Autowired
     private CarritoService carritoService;
+    @Autowired
+    private CarritoRepository carritoRepository;
 
     @Autowired
     private ProductoService productoService;
+
+    @GetMapping("/all/carritos")
+    public ResponseEntity<List<Map<String, Object>>> findAll() {
+        List<Carrito> carritos = carritoService.findAllTodosLosCarritos();
+        List<Map<String, Object>> response = carritos.stream().map(carrito -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", carrito.getId());
+
+
+            map.put("total", carrito.calcularTotal());
+            return map;
+        }).collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
+
 
     @PostMapping("/new")
     public ResponseEntity<Carrito> crearUnoNuevo(){
@@ -32,17 +50,22 @@ public class CarritoController {
     }
 
     @PostMapping("/agregar/{productoId}/{carritoId}")
-    public void agregarAlCarrito(@PathVariable Long productoId,@PathVariable Long carritoId) {
-        Optional<Producto> producto = productoService.obtenerProductoPorId(productoId);
-        carritoService.agregarProductoAlCarrito(producto);
+    public void agregarAlCarrito(@PathVariable Long productoId, @PathVariable Long carritoId) {
+        Producto producto = productoService.obtenerProductoPorId(productoId).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        Carrito carrito = carritoService.buscarCarritoPorId(carritoId).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        carritoService.agregarProductoAlCarrito(carrito, producto);
     }
+
+
+
 
     @GetMapping("/ver/{carritoId}")
     public Map<String, Object> verCarrito(@PathVariable Long carritoId) {
-        List<LineaCarritoDto> lineasCarritoDto = carritoService.obtenerProductosEnCarrito()
-                .stream()
+        Carrito carrito = carritoService.buscarCarritoPorId(carritoId).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        List<LineaCarritoDto> lineasCarritoDto = carrito.getLineasCarrito().stream()
                 .map(lineaCarrito -> {
                     LineaCarritoDto dto = new LineaCarritoDto();
+                    dto.setId(carritoId);
                     dto.setProducto(lineaCarrito.getProducto());
                     dto.setCantidad(lineaCarrito.getCantidad());
                     dto.setPrecio(lineaCarrito.getProducto().getPrecio());
@@ -51,7 +74,7 @@ public class CarritoController {
                 .collect(Collectors.toList());
 
         // Calcular el total del carrito
-        double totalCarrito = carritoService.calcularTotalCarrito();
+        double totalCarrito = carritoService.calcularTotalCarrito(carrito);
 
         // Crear un mapa para devolver tanto las líneas del carrito como el total
         Map<String, Object> resultado = new HashMap<>();
@@ -60,6 +83,7 @@ public class CarritoController {
 
         return resultado;
     }
+
 
 
 
