@@ -24,6 +24,14 @@ export function CrearProducto() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!producto.imagen) {
+      setProducto({
+        ...producto,
+        imagen: '/imagenes/productoempty.png'
+      });
+    }
+
     const response = await fetch('http://localhost:9000/api/productos/nuevo', {
       method: 'POST',
       headers: {
@@ -43,9 +51,9 @@ export function CrearProducto() {
   return (
     <div style={styles.container}>
       <form onSubmit={handleSubmit} style={styles.form}>
-        <input type="text" name="imagen" onChange={handleChange} placeholder="URL de la imagen" required style={styles.input} />
+        <input type="text" name="imagen" onChange={handleChange} placeholder="URL de la imagen" style={styles.input} />
         <input type="text" name="nombre" onChange={handleChange} placeholder="Nombre del producto" required style={styles.input} />
-        <textarea name="descripcion" onChange={handleChange} placeholder="Descripción del producto" required style={styles.textarea}></textarea>
+        <textarea name="descripcion" onChange={handleChange} placeholder="Descripción del producto" style={styles.textarea}></textarea>
         <input type="number" name="precio" onChange={handleChange} placeholder="Precio" required style={styles.input} />
         <label style={styles.checkboxLabel}>
           Disponible:
@@ -56,7 +64,7 @@ export function CrearProducto() {
       </form>
     </div>
   );
-};
+}
 
 const styles = {
   container: {
@@ -64,14 +72,14 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
-    backgroundColor: '#e6f7ea', // Fondo verde claro
+    backgroundColor: '#1f3d20', // Fondo verde claro
   },
   form: {
     width: '400px',
     padding: '20px',
     border: '1px solid #3c763d', // Borde verde oscuro
     borderRadius: '8px',
-    backgroundColor: '#2e7d32', // Fondo verde oscuro
+    backgroundColor: '#e6f7ea', // Mismo fondo que el contenedor
   },
   input: {
     width: '100%',

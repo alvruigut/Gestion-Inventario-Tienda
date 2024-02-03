@@ -4,36 +4,31 @@ import { Fragment } from 'react';
 import { AllProducts } from './producto/AllProducts';
 import { Carrito } from './carrito/Carrito';
 import { CrearProducto } from './producto/CrearProducto';
-
+import {Header} from './utiles/Header';
 
 function HomePage() {
   return (
     <Fragment>
       <div className='App-header'>
-        <h1>Bienvenido Juanillo</h1>
-        <ul>
-          <li> 
-            <Link to="/all">AllProductos</Link>
-          </li>
-        </ul>
+        <h1 className='welcome-text'>Bienvenido Juanillo</h1>
       </div>
     </Fragment>
-  )
+  );
 }
-
 
 
 function App() {
   return (
     <Router>
-      <main>  
-        <Routes>
-          <Route path="/" element={<HomePage/>}> </Route>
-          <Route path="/all" element={ <AllProducts/>} ></Route>
-          <Route path="/carrito" element={ <Carrito/>} ></Route>
-          <Route path="/crear" element={ <CrearProducto/>} ></Route>
-        </Routes>
-      </main>  
+      <Header />
+        <main>  
+          <Routes>
+            <Route path="/" element={<HomePage/>}> </Route>
+            <Route path="/all" element={ <AllProducts/>} ></Route>
+            <Route path="/carrito" element={ <Carrito/>} ></Route>
+            <Route path="/crear" element={ <CrearProducto/>} ></Route>
+          </Routes>
+        </main>  
     </Router>
   )
 }

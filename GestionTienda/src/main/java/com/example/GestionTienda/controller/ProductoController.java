@@ -26,8 +26,8 @@ public class ProductoController {
           return new ResponseEntity<>(productoService.findById(id), HttpStatus.OK);
       }
     @GetMapping("/all")
-    public ResponseEntity<List<GetProductoDto>> findall() {
-        List<GetProductoDto> getProductoDtos = productoService.findallDisponibles();
+    public ResponseEntity<List<Producto>> findall() {
+        List<Producto> getProductoDtos = productoService.findAll();
         return ResponseEntity.ok(getProductoDtos);
     }
     @PostMapping("/nuevo")
