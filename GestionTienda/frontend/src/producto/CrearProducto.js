@@ -7,7 +7,7 @@ import 'react-image-gallery/styles/css/image-gallery.css';
 export function CrearProducto() {
   const navigate = useNavigate();
   const [producto, setProducto] = useState({
-    imagenes: [],
+    imagen: '',  
     nombre: '',
     descripcion: '',
     precio: 0,
@@ -26,22 +26,17 @@ export function CrearProducto() {
   };
 
   const handleDrop = (acceptedFiles) => {
-    setProducto({
-      ...producto,
-      imagenes: producto.imagenes.concat(acceptedFiles.map(file => ({ file, src: URL.createObjectURL(file) })))
-    });
-  };
-
- const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!producto.imagen) {
+    const file = acceptedFiles[0];
+    if (file) {
       setProducto({
         ...producto,
-        imagen: '/imagenes/productoempty.png'
+        imagen: URL.createObjectURL(file),
       });
     }
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();  
     const response = await fetch('http://localhost:9000/api/productos/nuevo', {
       method: 'POST',
       headers: {
@@ -49,7 +44,7 @@ export function CrearProducto() {
       },
       body: JSON.stringify(producto),
     });
-
+  
     if (response.ok) {
       console.log('Producto creado exitosamente');
       navigate('/all');
@@ -63,12 +58,13 @@ export function CrearProducto() {
   return (
     <div style={styles.container}>
       <form onSubmit={handleSubmit} style={styles.form}>
-      <div {...getRootProps()} style={styles.dropzone}>
+        <div {...getRootProps()} style={styles.dropzone}>
           <input {...getInputProps()} />
           <p>Arrastra imágenes aquí o haz clic para seleccionar</p>
-        </div >
-        <Gallery  style={styles.galleryContainer}  items={producto.imagenes} showPlayButton={false} showFullscreenButton={false} />
-  
+          {producto.imagen && <img src={producto.imagen} alt="Imagen seleccionada" style={styles.dropzoneFoto} />}
+        </div>
+         <Gallery style={styles.galleryContainer} items={[{ src: producto.imagen }]} showPlayButton={false} showFullscreenButton={false} />
+ 
         <input type="text" name="nombre" onChange={handleChange} placeholder="Nombre del producto" required style={styles.input} />
         <textarea name="descripcion" onChange={handleChange} placeholder="Descripción del producto" style={styles.textarea}></textarea>
         <input type="number" name="precio" onChange={handleChange} placeholder="Precio" required style={styles.input} />
@@ -80,22 +76,20 @@ export function CrearProducto() {
 }
 
 
-
-
 const styles = {
   container: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
-    backgroundColor: '#1f3d20', // Fondo verde claro
+    backgroundColor: '#1f3d20', 
   },
   form: {
     width: '400px',
     padding: '20px',
-    border: '1px solid #3c763d', // Borde verde oscuro
+    border: '1px solid #3c763d',
     borderRadius: '8px',
-    backgroundColor: '#e6f7ea', // Mismo fondo que el contenedor
+    backgroundColor: '#e6f7ea',
   },
   input: {
     width: '100%',
@@ -123,7 +117,7 @@ const styles = {
     marginLeft: '5px',
   },
   button: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#3c763d',
     color: '#fff',
     padding: '10px 15px',
     border: 'none',
@@ -133,7 +127,7 @@ const styles = {
   },
   dropzone: {
     width: '90%',
-    minHeight: '10px',  // Ajusta la altura según tus necesidades
+    minHeight: '10px',  
     border: '2px dashed #ccc',
     borderRadius: '4px',
     padding: '20px',
@@ -142,4 +136,13 @@ const styles = {
     marginBottom: '20px',
   },
 
+  dropzoneFoto: {
+    width: '90%',
+    minHeight: '10px',  
+    border: '2px dashed #ccc',
+    borderRadius: '4px',
+    textAlign: 'center',
+    cursor: 'pointer',
+    marginBottom: '20px',
+  },
 };

@@ -17,13 +17,7 @@ export function Carrito(){
 return(
 <div className='App-header'>
         <h1>Carrito</h1>
-        <ul>
-            <li> 
-            <Link to="/">Pantalla Inicial</Link>
-            </li>
-        </ul>
-        <Link to="/all">Productos</Link>
-
+       
       </div>
     );
 
