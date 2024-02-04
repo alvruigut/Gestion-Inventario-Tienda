@@ -26,10 +26,7 @@ public class ProductoService {
    @Autowired
     private ProductoRepository productoRepository;
 
-    private CategoriaService categoriaService; 
-    private CarritoService carritoService;
 
-    private CarritoRepository carritoRepository;
 
 	@Transactional(readOnly = true)
 	public Producto findById(int id) throws DataAccessException {
@@ -65,6 +62,11 @@ public class ProductoService {
      return PostProductoDto.of(producto);
     }
 
+    @Transactional(readOnly = true)
+    public Producto findByName(String nombre) throws DataAccessException {
+        return productoRepository.findByName(nombre);
+    }
+    
    //editar un producto
     public Producto editarProducto(String nombreProducto,PutProductoDto producto) throws DataAccessException{
         Producto productoExistente = productoRepository.findByName(nombreProducto);
@@ -80,6 +82,9 @@ public class ProductoService {
 
         return productoRepository.save(productoExistente);
     }
+
+
+
     public Optional<Producto> obtenerProductoPorId(Long productoId) {
         Optional<Producto> productoOptional = productoRepository.findById(productoId);
 
@@ -89,6 +94,10 @@ public class ProductoService {
             throw new RuntimeException("error");
         }
 
+    }
+
+    public void eliminarProductoPorNombre(String nombre) {
+        productoRepository.eliminarProductoPorNombre(nombre);
     }
 
 }

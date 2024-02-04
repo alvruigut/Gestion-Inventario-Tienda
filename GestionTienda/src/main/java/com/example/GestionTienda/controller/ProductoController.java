@@ -2,7 +2,6 @@ package com.example.GestionTienda.controller;
 
 import java.util.List;
 
-import com.example.GestionTienda.Dto.GetProductoDto;
 import com.example.GestionTienda.Dto.PostProductoDto;
 import com.example.GestionTienda.Dto.PutProductoDto;
 
@@ -21,13 +20,13 @@ public class ProductoController {
     ProductoService productoService;
 
 
-     @GetMapping(value = "/{id}")
+     @GetMapping("/{id}")
      public ResponseEntity<Producto> getProductById(@PathVariable("id") int id) {
           return new ResponseEntity<>(productoService.findById(id), HttpStatus.OK);
       }
     @GetMapping("/all")
-    public ResponseEntity<List<GetProductoDto>> findall() {
-        List<GetProductoDto> getProductoDtos = productoService.findallDisponibles();
+    public ResponseEntity<List<Producto>> findall() {
+        List<Producto> getProductoDtos = productoService.findAll();
         return ResponseEntity.ok(getProductoDtos);
     }
     @PostMapping("/nuevo")
@@ -43,4 +42,18 @@ public class ProductoController {
         return productoEditado != null ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
+    @GetMapping(value = "/nombre/{nombre}")
+    public Producto getProductoByNombre(@PathVariable("nombre") String nombre) {
+        return productoService.findByName(nombre);
+    }
+
+    @DeleteMapping("/eliminar/{nombre}")
+    public ResponseEntity<String> eliminarProducto(@PathVariable String nombre) {
+        try {
+            productoService.eliminarProductoPorNombre(nombre);
+            return new ResponseEntity<>("Producto eliminado exitosamente", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error al eliminar el producto", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
