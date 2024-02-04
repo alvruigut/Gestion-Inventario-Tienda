@@ -1,12 +1,15 @@
 package com.example.GestionTienda.Dto;
 
 import com.example.GestionTienda.model.Carrito;
+import com.example.GestionTienda.model.LineaCarrito;
 import com.example.GestionTienda.model.Producto;
 import com.example.GestionTienda.util.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,16 +18,18 @@ import lombok.Setter;
 public class LineaCarritoDto {
     private Long id;
     private Producto producto;
+
     private double precio;
     private int cantidad;
 
 
-    public static LineaCarritoDto of (Carrito c){
+    public static LineaCarritoDto of (LineaCarrito lc){
         return new LineaCarritoDto(
-                c.getId(),
-                c.getProducto(),
-                c.getPrecio(),
-                c.getCantidad()
+                lc.getId(),
+                lc.getProducto(),
+
+                lc.getProducto().getPrecio(),
+                lc.getCantidad()
         );
     }
 

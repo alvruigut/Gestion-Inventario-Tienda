@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +35,8 @@ public class CarritoController {
         List<Map<String, Object>> response = carritos.stream().map(carrito -> {
             Map<String, Object> map = new HashMap<>();
             map.put("id", carrito.getId());
-
-
+            map.put("Fecha Creacion", LocalDateTime.now());
+            map.put("Cantidad de productos", carrito.getCantidad());
             map.put("total", carrito.calcularTotal());
             return map;
         }).collect(Collectors.toList());
@@ -63,26 +64,28 @@ public class CarritoController {
     public Map<String, Object> verCarrito(@PathVariable Long carritoId) {
         Carrito carrito = carritoService.buscarCarritoPorId(carritoId).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
         List<LineaCarritoDto> lineasCarritoDto = carrito.getLineasCarrito().stream()
-                .map(lineaCarrito -> {
-                    LineaCarritoDto dto = new LineaCarritoDto();
-                    dto.setId(carritoId);
-                    dto.setProducto(lineaCarrito.getProducto());
-                    dto.setCantidad(lineaCarrito.getCantidad());
-                    dto.setPrecio(lineaCarrito.getProducto().getPrecio());
-                    return dto;
-                })
+                .map(LineaCarritoDto::of)
                 .collect(Collectors.toList());
 
-        // Calcular el total del carrito
+       
         double totalCarrito = carritoService.calcularTotalCarrito(carrito);
 
-        // Crear un mapa para devolver tanto las líneas del carrito como el total
+
         Map<String, Object> resultado = new HashMap<>();
         resultado.put("lineasCarrito", lineasCarritoDto);
         resultado.put("total", totalCarrito);
 
         return resultado;
     }
+
+    @DeleteMapping("/eliminar/{productoId}/{carritoId}")
+    public void eliminarDelCarrito(@PathVariable Long productoId, @PathVariable Long carritoId) {
+        Producto producto = productoService.obtenerProductoPorId(productoId).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        Carrito carrito = carritoService.buscarCarritoPorId(carritoId).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        carritoService.eliminarProductoDelCarrito(carrito, producto);
+    }
+
+
 
 
 

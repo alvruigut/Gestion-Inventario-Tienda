@@ -5,6 +5,7 @@ import com.example.GestionTienda.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,11 +23,10 @@ public class Carrito extends BaseEntity{
     @Column(name = "cantidad")
     private Integer cantidad;
 
-    @ManyToOne
-    @JoinColumn(name = "producto_id",referencedColumnName = "id")
-    private Producto producto;
-    @Column(name = "precio")
-    private double precio;
+
+    @Column(name = "fecha_creacion")
+    private LocalDateTime fechaCreacion;
+
     @Column(name = "total")
     private double total;
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)

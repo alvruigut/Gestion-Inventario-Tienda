@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.GestionTienda.model.Carrito;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,8 +37,7 @@ public class CarritoService {
     public Carrito crearUnCarrito(){
         Carrito carrito1 = Carrito.builder()
                 .cantidad(null)
-                .precio(0.0)
-                .producto(null)
+                .fechaCreacion(LocalDateTime.now())
                 .total(0.0)
                 .build();
         carritoRepository.save(carrito1);
@@ -54,11 +54,36 @@ public class CarritoService {
     }
 
     public void agregarProductoAlCarrito(Carrito carrito, Producto producto) {
-        LineaCarrito nuevaLinea = new LineaCarrito();
-        nuevaLinea.setProducto(producto);
-        nuevaLinea.setCantidad(1);
-        nuevaLinea.setCarrito(carrito);
-        carrito.getLineasCarrito().add(nuevaLinea);
+        LineaCarrito lineaExistente = carrito.getLineasCarrito().stream()
+                .filter(linea -> linea.getProducto().getId().equals(producto.getId()))
+                .findFirst()
+                .orElse(null);
+
+        if (lineaExistente != null) {
+
+            lineaExistente.aumentarCantidad();
+        } else {
+
+            LineaCarrito nuevaLinea = new LineaCarrito(producto, 1);
+            nuevaLinea.setCarrito(carrito);
+            carrito.getLineasCarrito().add(nuevaLinea);
+        }
+
+        carritoRepository.save(carrito);
+        actualizarTotalCarrito(carrito);
+    }
+
+
+    public void actualizarTotalCarrito(Carrito carrito) {
+        double total = carrito.getLineasCarrito().stream()
+                .mapToDouble(LineaCarrito::getTotal)
+                .sum();
+        Integer cantidad = carrito.getLineasCarrito().stream()
+                .mapToInt(LineaCarrito::getCantidad)
+                                .sum();
+
+        carrito.setCantidad(cantidad);
+        carrito.setTotal(total);
         carritoRepository.save(carrito);
     }
 
@@ -66,13 +91,23 @@ public class CarritoService {
 
 
 
-    public void eliminarProductoDelCarrito(Producto producto) {
-        Long productoId = producto.getId();
-        carrito.computeIfPresent(productoId, (id, lineaCarrito) -> {
-            lineaCarrito.disminuirCantidad();
-            return lineaCarrito.getCantidad() > 0 ? lineaCarrito : null;
-        });
+
+    public void eliminarProductoDelCarrito(Carrito carrito, Producto producto) {
+        LineaCarrito lineaCarrito = carrito.getLineasCarrito().stream()
+                .filter(linea -> linea.getProducto().getId().equals(producto.getId()))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado en el carrito"));
+
+        lineaCarrito.disminuirCantidad();
+
+        if (lineaCarrito.getCantidad() <= 0) {
+            carrito.getLineasCarrito().remove(lineaCarrito);
+        }
+
+        carritoRepository.save(carrito);
+        actualizarTotalCarrito(carrito);
     }
+
 
     public List<LineaCarrito> obtenerProductosEnCarrito(Long id) {
         Carrito carrito = carritoRepository.findById(id).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
