@@ -9,7 +9,10 @@ import com.example.GestionTienda.Dto.PostProductoDto;
 import com.example.GestionTienda.Dto.PutProductoDto;
 
 import com.example.GestionTienda.model.Carrito;
+import com.example.GestionTienda.model.Categoria;
 import com.example.GestionTienda.repository.CarritoRepository;
+import com.example.GestionTienda.repository.CategoriaRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -25,7 +28,9 @@ public class ProductoService {
     
    @Autowired
     private ProductoRepository productoRepository;
-
+    
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
 
 	@Transactional(readOnly = true)
@@ -50,12 +55,13 @@ public class ProductoService {
 
     //crear un nuevo producto
     public PostProductoDto crearNuevoProducto(PostProductoDto postProductoDto){
+    Categoria categoria = categoriaRepository.findByName(postProductoDto.categoria().getNombre());
      Producto producto = Producto.builder()
              .nombre(postProductoDto.nombre())
              .descripcion(postProductoDto.descripcion())
              .precio(postProductoDto.precio())
              .disponible(true)
-             .categoria(postProductoDto.categoria())
+             .categoria(categoria)
              .imagen(postProductoDto.imagen())
              .build();
      producto = productoRepository.save(producto);
@@ -84,6 +90,10 @@ public class ProductoService {
     }
 
 
+    @Transactional(readOnly = true)
+    public List<Producto> findByCategoryName(String nombre) throws DataAccessException {
+        return productoRepository.findByCategoryName(nombre);
+    }
 
     public Optional<Producto> obtenerProductoPorId(Long productoId) {
         Optional<Producto> productoOptional = productoRepository.findById(productoId);

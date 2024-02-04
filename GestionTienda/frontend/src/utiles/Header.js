@@ -11,7 +11,7 @@ export function Header() {
       </div>
       <div className="nav-links">
         <Link to="/all" style={linkStyle}>
-          Todos los productos
+          Productos
         </Link>
         <Link to="/carrito" style={linkStyle}>
           Nuevo pedido
@@ -43,6 +43,8 @@ const logoStyle = {
 const linkStyle = {
   color: '#006600',
   fontFamily: 'Arial, sans-serif',
+  fontSize: '25px',
   textDecoration: 'none',
   margin: '0 10px',
+  
 };

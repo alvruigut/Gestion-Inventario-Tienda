@@ -5,6 +5,7 @@ import Gallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import './products.css';  
 
+
 export function EditarProducto() {
   const navigate = useNavigate();
   const { nombre } = useParams();
@@ -14,46 +15,33 @@ export function EditarProducto() {
     descripcion: '',
     imagen: '',
   });
-  
+
   useEffect(() => {
     const getProducto = async () => {
       try {
         const response = await fetch(`http://localhost:9000/api/productos/nombre/${nombre}`);
         const data = await response.json();
-          setProducto(prevProducto => ({
+        setProducto((prevProducto) => ({
           ...prevProducto,
           nombre: data.nombre,
           precio: data.precio,
           descripcion: data.descripcion,
           imagen: data.imagen,
         }));
-        
       } catch (error) {
         console.error('Error al obtener el producto', error);
       }
     };
+
     getProducto();
-  }, [nombre]);
-  
-  useEffect(() => {
-    const getProducto = async () => {
-      try {
-        const response = await fetch(`http://localhost:9000/api/productos/actualizar/${nombre}`);
-        const data = await response.json();
-        setProducto(data);
-      } catch (error) {
-        console.error('Error al obtener el producto', error);
-      }
-    };
-    getProducto();
-  }, [nombre]);
+  }, [nombre]);  // Solo ejecutar el efecto cuando "nombre" cambia
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProducto({
-      ...producto,
+    setProducto((prevProducto) => ({
+      ...prevProducto,
       [name]: value,
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -111,3 +99,4 @@ export function EditarProducto() {
     </div>
   );
 }
+

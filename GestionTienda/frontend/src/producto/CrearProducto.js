@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import Gallery from 'react-image-gallery';
@@ -8,22 +8,54 @@ import './products.css';
 export function CrearProducto() {
   const navigate = useNavigate();
   const [producto, setProducto] = useState({
-    imagen: '',  
+    imagen: '',
     nombre: '',
     descripcion: '',
     precio: 0,
     disponible: false,
     categoria: {
-      id: 1
-    }
+      nombre: '',
+    },
   });
+
+  const [categorias, setCategorias] = useState([]);
+
+  useEffect(() => {
+    const obtenerCategorias = async () => {
+      try {
+        const response = await fetch('http://localhost:9000/api/categorias/all');
+        if (!response.ok) {
+          throw new Error('Error al obtener las categorías');
+        }
+        const data = await response.json();
+        console.log('Categorías obtenidas:', data);
+        setCategorias(data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    obtenerCategorias();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProducto({
-      ...producto,
-      [name]: value
-    });
+    
+    // Para manejar la categoría correctamente
+    if (name === 'categoria.nombre') {
+      setProducto((prevProducto) => ({
+        ...prevProducto,
+        categoria: {
+          ...prevProducto.categoria,
+          nombre: value,
+        },
+      }));
+    } else {
+      setProducto((prevProducto) => ({
+        ...prevProducto,
+        [name]: value,
+      }));
+    }
   };
 
   const handleDrop = (acceptedFiles) => {
@@ -35,12 +67,10 @@ export function CrearProducto() {
         imagen: imageName,
       });
     }
-  }
-      
-  
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();  
+    e.preventDefault();
     const response = await fetch('http://localhost:9000/api/productos/nuevo', {
       method: 'POST',
       headers: {
@@ -52,7 +82,7 @@ export function CrearProducto() {
       alert('Juan pon punto en vez de coma');
       return;
     }
-  
+
     if (response.ok) {
       console.log('Producto creado exitosamente');
       navigate('/all');
@@ -76,7 +106,14 @@ export function CrearProducto() {
         <input type="text" name="nombre" onChange={handleChange} placeholder="Nombre del producto" required className="input" />
         <textarea name="descripcion" onChange={handleChange} placeholder="Descripción del producto" className="textarea"></textarea>
         <input type="text" name="precio" onChange={handleChange} placeholder="Precio" required className="input" />
-        <input type="number" name="categoria.id" onChange={handleChange} placeholder="ID de la categoría" required className="input" />
+
+        <select name="categoria.nombre" onChange={handleChange} value={producto.categoria.nombre} required className="input">
+        <option value="" disabled>Selecciona una categoría</option>
+        {categorias.map((categoria) => (
+          <option key={categoria.nombre} value={categoria.nombre}>{categoria.nombre}</option>
+        ))}
+      </select>
+
         <button type="submit" className="button">Crear producto</button>
       </form>
     </div>

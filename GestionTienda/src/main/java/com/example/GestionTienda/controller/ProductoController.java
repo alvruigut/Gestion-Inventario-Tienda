@@ -56,4 +56,9 @@ public class ProductoController {
             return new ResponseEntity<>("Error al eliminar el producto", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/categoria/{nombre}")
+    public ResponseEntity<List<Producto>> getProductByCategoryName(@PathVariable("nombre") String nombre) {
+        return new ResponseEntity<>(productoService.findByCategoryName(nombre), HttpStatus.OK);
+    }
 }
