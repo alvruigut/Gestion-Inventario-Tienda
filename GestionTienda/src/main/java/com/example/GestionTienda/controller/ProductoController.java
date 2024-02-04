@@ -21,7 +21,7 @@ public class ProductoController {
     ProductoService productoService;
 
 
-     @GetMapping(value = "/{id}")
+     @GetMapping("/{id}")
      public ResponseEntity<Producto> getProductById(@PathVariable("id") int id) {
           return new ResponseEntity<>(productoService.findById(id), HttpStatus.OK);
       }
@@ -43,4 +43,8 @@ public class ProductoController {
         return productoEditado != null ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
+    @GetMapping(value = "/{nombre}")
+    public Producto getProductoByNombre(@PathVariable("nombre") String nombre) {
+        return productoService.findByName(nombre);
+    }
 }

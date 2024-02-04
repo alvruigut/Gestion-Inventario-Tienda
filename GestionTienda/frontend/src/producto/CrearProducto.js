@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import Gallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
+import './products.css';  
 
 export function CrearProducto() {
   const navigate = useNavigate();
@@ -28,12 +29,15 @@ export function CrearProducto() {
   const handleDrop = (acceptedFiles) => {
     const file = acceptedFiles[0];
     if (file) {
+      const imageName = file.name;
       setProducto({
         ...producto,
-        imagen: URL.createObjectURL(file),
+        imagen: imageName,
       });
     }
-  };
+  }
+      
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();  
@@ -44,6 +48,10 @@ export function CrearProducto() {
       },
       body: JSON.stringify(producto),
     });
+    if (producto.precio.includes(',')) {
+      alert('Juan pon punto en vez de coma');
+      return;
+    }
   
     if (response.ok) {
       console.log('Producto creado exitosamente');
@@ -56,93 +64,21 @@ export function CrearProducto() {
   const { getRootProps, getInputProps } = useDropzone({ onDrop: handleDrop, accept: 'image/*' });
 
   return (
-    <div style={styles.container}>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div {...getRootProps()} style={styles.dropzone}>
+    <div className="container">
+      <form onSubmit={handleSubmit} className="form">
+        <div {...getRootProps()} className="dropzone">
           <input {...getInputProps()} />
           <p>Arrastra imágenes aquí o haz clic para seleccionar</p>
-          {producto.imagen && <img src={producto.imagen} alt="Imagen seleccionada" style={styles.dropzoneFoto} />}
+          {producto.imagen && <img src={producto.imagen} alt="Imagen seleccionada" className="dropzoneFoto" />}
         </div>
-         <Gallery style={styles.galleryContainer} items={[{ src: producto.imagen }]} showPlayButton={false} showFullscreenButton={false} />
- 
-        <input type="text" name="nombre" onChange={handleChange} placeholder="Nombre del producto" required style={styles.input} />
-        <textarea name="descripcion" onChange={handleChange} placeholder="Descripción del producto" style={styles.textarea}></textarea>
-        <input type="number" name="precio" onChange={handleChange} placeholder="Precio" required style={styles.input} />
-        <input type="number" name="categoria.id" onChange={handleChange} placeholder="ID de la categoría" required style={styles.input} />
-        <button type="submit" style={styles.button}>Crear producto</button>
+        <Gallery items={[{ src: producto.imagen }]} showPlayButton={false} showFullscreenButton={false} />
+
+        <input type="text" name="nombre" onChange={handleChange} placeholder="Nombre del producto" required className="input" />
+        <textarea name="descripcion" onChange={handleChange} placeholder="Descripción del producto" className="textarea"></textarea>
+        <input type="text" name="precio" onChange={handleChange} placeholder="Precio" required className="input" />
+        <input type="number" name="categoria.id" onChange={handleChange} placeholder="ID de la categoría" required className="input" />
+        <button type="submit" className="button">Crear producto</button>
       </form>
     </div>
   );
 }
-
-
-const styles = {
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100vh',
-    backgroundColor: '#1f3d20', 
-  },
-  form: {
-    width: '400px',
-    padding: '20px',
-    border: '1px solid #3c763d',
-    borderRadius: '8px',
-    backgroundColor: '#e6f7ea',
-  },
-  input: {
-    width: '100%',
-    marginBottom: '10px',
-    padding: '8px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    boxSizing: 'border-box',
-  },
-  textarea: {
-    width: '100%',
-    marginBottom: '10px',
-    padding: '8px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    boxSizing: 'border-box',
-    resize: 'vertical',
-  },
-  checkboxLabel: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '10px',
-  },
-  checkbox: {
-    marginLeft: '5px',
-  },
-  button: {
-    backgroundColor: '#3c763d',
-    color: '#fff',
-    padding: '10px 15px',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-  },
-  dropzone: {
-    width: '90%',
-    minHeight: '10px',  
-    border: '2px dashed #ccc',
-    borderRadius: '4px',
-    padding: '20px',
-    textAlign: 'center',
-    cursor: 'pointer',
-    marginBottom: '20px',
-  },
-
-  dropzoneFoto: {
-    width: '90%',
-    minHeight: '10px',  
-    border: '2px dashed #ccc',
-    borderRadius: '4px',
-    textAlign: 'center',
-    cursor: 'pointer',
-    marginBottom: '20px',
-  },
-};

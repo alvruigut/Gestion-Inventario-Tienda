@@ -5,7 +5,7 @@ import { AllProducts } from './producto/AllProducts';
 import { Carrito } from './carrito/Carrito';
 import { CrearProducto } from './producto/CrearProducto';
 import {Header} from './utiles/Header';
-
+import { EditarProducto } from './producto/EditarProducto';
 function HomePage() {
   return (
     <Fragment>
@@ -27,6 +27,7 @@ function App() {
             <Route path="/all" element={ <AllProducts/>} ></Route>
             <Route path="/carrito" element={ <Carrito/>} ></Route>
             <Route path="/crear" element={ <CrearProducto/>} ></Route>
+            <Route path="/editar/:nombre" element={ <EditarProducto/>} ></Route>
           </Routes>
         </main>  
     </Router>

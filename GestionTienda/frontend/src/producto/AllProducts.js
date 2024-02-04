@@ -32,9 +32,11 @@ export function AllProducts() {
             style={imageStyle}
           />
           <div>
-            <div>{product.nombre}</div>
-            <div>{product.precio} €</div>
-            <div>{product.descripcion || 'N/A'}</div>
+            <div style={letras}>{product.nombre }: {product.precio}€</div>
+            <div style={letras}>{product.descripcion || 'N/A'}</div>
+            <Link to={`/editar/${product.nombre}`} style={editButtonStyle}>
+            Editar
+          </Link>
           </div>
         </div>
       ))}
@@ -45,19 +47,25 @@ export function AllProducts() {
 
 
 
+const editButtonStyle = {
+  backgroundColor: '#1f3d20', // Fondo verde oscuro
+  color: '#ffffff', // Texto en color blanco
+  padding: '8px 16px', // Ajusta el espaciado interno
+  borderRadius: '4px', // Bordes redondeados
+  textDecoration: 'none', // Sin subrayado
+  display: 'inline-block', // Alinear en línea
+  marginTop: '10px', // Espacio superior
+};
 
 
 
-
-
-
-
-
-
-
-
-
-
+const letras = {
+  fontSize: '20px',
+  color: '#ffffff',
+  marginBottom: '10px',
+  fontFamily: 'Arial, sans-serif',
+  fontWeight: 'bold',
+};
 
 
 
@@ -85,10 +93,8 @@ const productStyle = {
 };
 
 const imageStyle = {
-  width: '70px', 
-  height: '100%',
-  objectFit: 'cover',
-  borderRadius: '15px 0 0 15px',
+  width: '200px', 
+  borderRadius: '10px',
   marginRight: '10px',
 };
 
