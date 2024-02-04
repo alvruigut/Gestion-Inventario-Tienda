@@ -42,35 +42,25 @@ public class CarritoController {
         }).collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
-
-
+    
     @PostMapping("/new")
     public ResponseEntity<Carrito> crearUnoNuevo(){
         Carrito carrito = carritoService.crearUnCarrito();
         return ResponseEntity.ok(carrito);
     }
-
     @PostMapping("/agregar/{productoId}/{carritoId}")
     public void agregarAlCarrito(@PathVariable Long productoId, @PathVariable Long carritoId) {
         Producto producto = productoService.obtenerProductoPorId(productoId).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
         Carrito carrito = carritoService.buscarCarritoPorId(carritoId).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
         carritoService.agregarProductoAlCarrito(carrito, producto);
     }
-
-
-
-
     @GetMapping("/ver/{carritoId}")
     public Map<String, Object> verCarrito(@PathVariable Long carritoId) {
         Carrito carrito = carritoService.buscarCarritoPorId(carritoId).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
         List<LineaCarritoDto> lineasCarritoDto = carrito.getLineasCarrito().stream()
                 .map(LineaCarritoDto::of)
                 .collect(Collectors.toList());
-
-       
         double totalCarrito = carritoService.calcularTotalCarrito(carrito);
-
-
         Map<String, Object> resultado = new HashMap<>();
         resultado.put("lineasCarrito", lineasCarritoDto);
         resultado.put("total", totalCarrito);
@@ -84,16 +74,6 @@ public class CarritoController {
         Carrito carrito = carritoService.buscarCarritoPorId(carritoId).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
         carritoService.eliminarProductoDelCarrito(carrito, producto);
     }
-
-
-
-
-
-
-
-
-
-
     @DeleteMapping("/vaciar")
     public void vaciarCarrito() {
         carritoService.vaciarCarrito();
