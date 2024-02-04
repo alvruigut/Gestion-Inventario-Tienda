@@ -37,6 +37,9 @@ export function AllProducts() {
             <Link to={`/editar/${product.nombre}`} style={editButtonStyle}>
             Editar
           </Link>
+          <Link to={`/eliminar/${product.nombre}`} style={editButtonStyleDelete}>
+            Eliminar
+          </Link>
           </div>
         </div>
       ))}
@@ -48,7 +51,7 @@ export function AllProducts() {
 
 
 const editButtonStyle = {
-  backgroundColor: '#1f3d20', // Fondo verde oscuro
+  backgroundColor: 'blue', // Fondo verde oscuro
   color: '#ffffff', // Texto en color blanco
   padding: '8px 16px', // Ajusta el espaciado interno
   borderRadius: '4px', // Bordes redondeados
@@ -59,6 +62,16 @@ const editButtonStyle = {
 
 
 
+const editButtonStyleDelete = {
+  backgroundColor: 'red', // Fondo verde oscuro
+  color: '#ffffff', // Texto en color blanco
+  padding: '8px 16px', // Ajusta el espaciado interno
+  borderRadius: '4px', // Bordes redondeados
+  textDecoration: 'none', // Sin subrayado
+  display: 'inline-block', // Alinear en línea
+  marginTop: '10px', // Espacio superior
+  marginLeft: '10px', // Espacio derecho
+};
 const letras = {
   fontSize: '20px',
   color: '#ffffff',

@@ -26,10 +26,7 @@ public class ProductoService {
    @Autowired
     private ProductoRepository productoRepository;
 
-    private CategoriaService categoriaService; 
-    private CarritoService carritoService;
 
-    private CarritoRepository carritoRepository;
 
 	@Transactional(readOnly = true)
 	public Producto findById(int id) throws DataAccessException {
@@ -97,6 +94,10 @@ public class ProductoService {
             throw new RuntimeException("error");
         }
 
+    }
+
+    public void eliminarProductoPorNombre(String nombre) {
+        productoRepository.eliminarProductoPorNombre(nombre);
     }
 
 }

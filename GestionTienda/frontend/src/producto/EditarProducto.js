@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useDropzone } from 'react-dropzone';
+import Gallery from 'react-image-gallery';
+import 'react-image-gallery/styles/css/image-gallery.css';
 import './products.css';  
 
 export function EditarProducto() {
   const navigate = useNavigate();
   const { nombre } = useParams();
-
-
-
   const [producto, setProducto] = useState({
     nombre: '',
     precio: 0,
@@ -18,11 +18,9 @@ export function EditarProducto() {
   useEffect(() => {
     const getProducto = async () => {
       try {
-        const response = await fetch(`http://localhost:9000/api/productos/${nombre}`);
+        const response = await fetch(`http://localhost:9000/api/productos/nombre/${nombre}`);
         const data = await response.json();
-        
-        // Utiliza la forma de función para garantizar la actualización correcta del estado
-        setProducto(prevProducto => ({
+          setProducto(prevProducto => ({
           ...prevProducto,
           nombre: data.nombre,
           precio: data.precio,
@@ -60,7 +58,10 @@ export function EditarProducto() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (String(producto.precio).includes(',')) {
+      alert('Juan pon un  punto y quita la coma para el precio.');
+      return;
+    }
     try {
       const response = await fetch(`http://localhost:9000/api/productos/actualizar/${nombre}`, {
         method: 'PUT',
@@ -81,19 +82,31 @@ export function EditarProducto() {
     }
   };
 
+  const handleDrop = (acceptedFiles) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      const imageName = file.name;
+      setProducto({
+        ...producto,
+        imagen: imageName,
+      });
+    }
+  }
+  const { getRootProps, getInputProps } = useDropzone({ onDrop: handleDrop, accept: 'image/*' });
+
   return (
     <div className="container">
-  
       <form onSubmit={handleSubmit} className="form">
-        <label>Nombre</label>
-        <input type="text" name="nombre" value={producto.nombre} onChange={handleChange} className="input" />
-        <label>Precio</label>
-        <input type="text" name="precio" value={producto.precio} onChange={handleChange} className="input" />
-        <label>Descripción</label>
-        <input type="text" name="descripcion" value={producto.descripcion} onChange={handleChange} className="input" />
-        <label>Imagen</label>
-        <input type="text" name="imagen" value={producto.imagen} onChange={handleChange} className="input" />
-        <button type="submit" className="button">Editar Producto</button>
+        <div {...getRootProps()} className="dropzone">
+          <input {...getInputProps()} />
+          <p>Arrastra imágenes aquí o haz clic para cambiarla</p>
+          {producto.imagen && <img src={producto.imagen} alt="Imagen seleccionada" className="dropzoneFoto" />}
+        </div>
+        <Gallery items={[{ src: producto.imagen }]} showPlayButton={false} showFullscreenButton={false} />
+        <input type="text" name="nombre" value={producto.nombre} onChange={handleChange} placeholder="Nombre del producto" required className="input" />
+        <textarea name="descripcion" value={producto.descripcion} onChange={handleChange} placeholder="Descripción del producto" className="textarea"></textarea>
+        <input type="text" name="precio" value={producto.precio} onChange={handleChange} placeholder="Precio" required className="input" />
+        <button type="submit" className="button">Editar producto</button>
       </form>
     </div>
   );
