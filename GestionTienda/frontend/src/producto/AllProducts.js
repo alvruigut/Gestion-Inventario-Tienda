@@ -227,13 +227,4 @@ const imageStyle = {
   height: '150px'
 };
 
-const addButtonStyle = {
-  backgroundColor: 'brown',
-  padding: '20px',
-  borderRadius: '5px',
-  textDecoration: 'none',
-  color: '#ffffff',
-  fontFamily: 'Arial, sans-serif',
-  display: 'inline-block',
-  marginBottom: '20px',
-};
+

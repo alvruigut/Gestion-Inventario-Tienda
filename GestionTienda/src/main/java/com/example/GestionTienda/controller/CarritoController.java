@@ -3,7 +3,6 @@ import com.example.GestionTienda.Dto.LineaCarritoDto;
 
 import com.example.GestionTienda.model.Carrito;
 import com.example.GestionTienda.model.Producto;
-import com.example.GestionTienda.repository.CarritoRepository;
 import com.example.GestionTienda.service.CarritoService;
 import com.example.GestionTienda.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,8 +21,6 @@ public class CarritoController {
 
     @Autowired
     private CarritoService carritoService;
-    @Autowired
-    private CarritoRepository carritoRepository;
 
     @Autowired
     private ProductoService productoService;

@@ -1,14 +1,14 @@
 package com.example.GestionTienda.model;
 
-import com.example.GestionTienda.service.CarritoService;
+
 import com.example.GestionTienda.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
+
 import java.util.HashSet;
-import java.util.Map;
+
 import java.util.Set;
 
 @Entity

@@ -1,15 +1,11 @@
 package com.example.GestionTienda.Dto;
 
-import com.example.GestionTienda.model.Carrito;
 import com.example.GestionTienda.model.LineaCarrito;
 import com.example.GestionTienda.model.Producto;
-import com.example.GestionTienda.util.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
