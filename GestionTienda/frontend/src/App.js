@@ -7,6 +7,7 @@ import { CrearProducto } from './producto/CrearProducto';
 import {Header} from './utiles/Header';
 import { EditarProducto } from './producto/EditarProducto';
 import{EliminarProducto} from './producto/EliminarProducto';
+import {CrearCategoria} from './categoria/CrearCategoria.js';
 function HomePage() {
   return (
     <Fragment>
@@ -30,6 +31,8 @@ function App() {
             <Route path="/crear" element={ <CrearProducto/>} ></Route>
             <Route path="/editar/:nombre" element={ <EditarProducto/>} ></Route>
             <Route path="/eliminar/:nombre" element={ <EliminarProducto/>} ></Route>
+            <Route path="/crear/categoria" element={ <CrearCategoria/>} ></Route>
+            
           </Routes>
         </main>  
     </Router>

@@ -27,6 +27,7 @@ public class Producto  extends BaseEntity{
     @Column(name = "disponible")
     private boolean disponible;
     @ManyToOne
+    @NonNull
     @JoinColumn(name = "categoria_id",referencedColumnName = "id")
     private Categoria categoria;
     

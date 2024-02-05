@@ -54,6 +54,16 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
+.buttonC {
+  background-color: red;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 10px;
+}
 
 .dropzone {
   width: 90%;

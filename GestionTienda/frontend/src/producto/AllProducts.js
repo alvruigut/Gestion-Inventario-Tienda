@@ -50,30 +50,41 @@ export function AllProducts() {
     setShowConfirmation(false);
   };
 
+  const handleCategoryFilter = async (categoriaNombre) => {
+    try {
+      const response = await fetch(`http://localhost:9000/api/productos/categoria/${categoriaNombre}`);
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error(`Error al obtener productos de la categoría ${categoriaNombre}`, error);
+    }
+  };
+  const handleShowAllProducts = async () => {
+    try {
+      const response = await fetch('http://localhost:9000/api/productos/all');
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error('Error al obtener todos los productos', error);
+    }
+  };
   return (
     <div style={containerStyle}>
-      <h1 style={{ color: '#ffffff' }}>Productos del Juanillo</h1>
-      <Link to="/crear" style={addButtonStyle}>
-        Agregar Nuevo Producto
-      </Link>
+      <h1 style={{ color: '#ffffff' , marginTop: '40px'}}>Productos del Juanillo</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Link to="/crear" style={{ ...categoryButtonStyle, marginRight: '10px' }}>Agregar Nuevo Producto</Link>
+        <Link to="/crear/categoria" style={categoryButtonStyle}>Agregar Nueva Categoría</Link>
+      </div>
       <div style={categoryButtonsStyle}>
-        {categorias.map((categoria) => (
-          <button
-            key={categoria.id}
-            style={categoryButtonStyle}
-            //onClick={() => handleCategoryFilter(categoria.nombre)}
-          >
-            {categoria.nombre}
-          </button>
+      <button style={categoryButtonStyle} onClick={() => handleShowAllProducts()}> Todos  </button>
+        {categorias.map((categoria) => ( <button key={categoria.id} style={categoryButtonStyle}  onClick={() => handleCategoryFilter(categoria.nombre)} > {categoria.nombre}
+        </button>
         ))}
-</div>
+        
+      </div>
       {products.map((product) => (
         <div key={product.id} style={productStyle}>
-          <img
-            src={product.imagen ? product.imagen : foto}
-            alt={product.nombre}
-            style={imageStyle}
-          />
+          <img src={product.imagen ? product.imagen : foto} alt={product.nombre} style={imageStyle} />
           <div>
             <div style={letras}>{product.nombre}: {product.precio}€</div>
             <div style={letras}>{product.descripcion || 'N/A'}</div>
@@ -217,7 +228,7 @@ const imageStyle = {
 };
 
 const addButtonStyle = {
-  backgroundColor: '#1f3d20',
+  backgroundColor: 'brown',
   padding: '20px',
   borderRadius: '5px',
   textDecoration: 'none',

@@ -9,11 +9,15 @@ import './products.css';
 export function EditarProducto() {
   const navigate = useNavigate();
   const { nombre } = useParams();
+  const [categorias, setCategorias] = useState([]);
   const [producto, setProducto] = useState({
     nombre: '',
     precio: 0,
     descripcion: '',
     imagen: '',
+    categoria: {
+      nombre: '',
+    },
   });
 
   useEffect(() => {
@@ -21,33 +25,65 @@ export function EditarProducto() {
       try {
         const response = await fetch(`http://localhost:9000/api/productos/nombre/${nombre}`);
         const data = await response.json();
-        setProducto((prevProducto) => ({
-          ...prevProducto,
+        setProducto({
+          ...producto,
           nombre: data.nombre,
           precio: data.precio,
           descripcion: data.descripcion,
           imagen: data.imagen,
-        }));
+          categoria: {
+            nombre: data.categoria.nombre,
+          },
+        });
       } catch (error) {
         console.error('Error al obtener el producto', error);
       }
     };
 
     getProducto();
-  }, [nombre]);  // Solo ejecutar el efecto cuando "nombre" cambia
+  }, [nombre]);  
+
+  useEffect(() => {
+    const obtenerCategorias = async () => {
+      try {
+        const response = await fetch('http://localhost:9000/api/categorias/all');
+        if (!response.ok) {
+          throw new Error('Error al obtener las categorías');
+        }
+        const data = await response.json();
+        console.log('Categorías obtenidas:', data);
+        setCategorias(data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    obtenerCategorias();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProducto((prevProducto) => ({
-      ...prevProducto,
-      [name]: value,
-    }));
+    if (name === 'categoria.nombre') {
+      setProducto({
+        ...producto,
+        categoria: {
+          nombre: value,
+        },
+      });
+    } else {
+      setProducto({
+        ...producto,
+        [name]: value,
+      });
+    }
   };
-
+  const handleCancelar = () => {
+    navigate('/all');
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (String(producto.precio).includes(',')) {
-      alert('Juan pon un  punto y quita la coma para el precio.');
+      alert('Juan, pon un punto y quita la coma para el precio.');
       return;
     }
     try {
@@ -79,7 +115,8 @@ export function EditarProducto() {
         imagen: imageName,
       });
     }
-  }
+  };
+
   const { getRootProps, getInputProps } = useDropzone({ onDrop: handleDrop, accept: 'image/*' });
 
   return (
@@ -94,7 +131,15 @@ export function EditarProducto() {
         <input type="text" name="nombre" value={producto.nombre} onChange={handleChange} placeholder="Nombre del producto" required className="input" />
         <textarea name="descripcion" value={producto.descripcion} onChange={handleChange} placeholder="Descripción del producto" className="textarea"></textarea>
         <input type="text" name="precio" value={producto.precio} onChange={handleChange} placeholder="Precio" required className="input" />
+        <select name="categoria.nombre" onChange={handleChange} value={producto.categoria.nombre} required className="input">
+        <option value="" disabled>Selecciona una categoría</option>
+        {categorias.map((categoria) => (
+          <option key={categoria.nombre} value={categoria.nombre}>{categoria.nombre}</option>
+        ))}
+      </select>
         <button type="submit" className="button">Editar producto</button>
+        <button type="button" onClick={handleCancelar} className="buttonC">Cancelar</button>
+
       </form>
     </div>
   );

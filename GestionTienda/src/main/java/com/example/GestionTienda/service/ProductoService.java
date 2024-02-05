@@ -56,7 +56,7 @@ public class ProductoService {
     //crear un nuevo producto
     public PostProductoDto crearNuevoProducto(PostProductoDto postProductoDto){
     Categoria categoria = categoriaRepository.findByName(postProductoDto.categoria().getNombre());
-     Producto producto = Producto.builder()
+    Producto producto = Producto.builder()
              .nombre(postProductoDto.nombre())
              .descripcion(postProductoDto.descripcion())
              .precio(postProductoDto.precio())
@@ -75,6 +75,8 @@ public class ProductoService {
     
    //editar un producto
     public Producto editarProducto(String nombreProducto,PutProductoDto producto) throws DataAccessException{
+        Categoria categoria = categoriaRepository.findByName(producto.getCategoria().getNombre());
+
         Producto productoExistente = productoRepository.findByName(nombreProducto);
         if (productoExistente == null){
             throw new RuntimeException("No existe el producto");
@@ -83,7 +85,7 @@ public class ProductoService {
             productoExistente.setDescripcion(producto.getDescripcion());
             productoExistente.setPrecio(producto.getPrecio());
             productoExistente.setDisponible(producto.isDisponible());
-            productoExistente.setCategoria(producto.getCategoria());
+            productoExistente.setCategoria(categoria);
         }
 
         return productoRepository.save(productoExistente);

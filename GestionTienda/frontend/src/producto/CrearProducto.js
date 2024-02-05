@@ -41,7 +41,6 @@ export function CrearProducto() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     
-    // Para manejar la categoría correctamente
     if (name === 'categoria.nombre') {
       setProducto((prevProducto) => ({
         ...prevProducto,
@@ -68,7 +67,9 @@ export function CrearProducto() {
       });
     }
   };
-
+  const handleCancelar = () => {
+    navigate('/all');
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch('http://localhost:9000/api/productos/nuevo', {
@@ -115,6 +116,8 @@ export function CrearProducto() {
       </select>
 
         <button type="submit" className="button">Crear producto</button>
+        <button type="button" onClick={handleCancelar} className="buttonC">Cancelar</button>
+
       </form>
     </div>
   );
