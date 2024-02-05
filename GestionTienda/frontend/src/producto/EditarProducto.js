@@ -15,6 +15,7 @@ export function EditarProducto() {
     precio: 0,
     descripcion: '',
     imagen: '',
+    cantidadDisponible: 0,
     categoria: {
       nombre: '',
     },
@@ -31,6 +32,7 @@ export function EditarProducto() {
           precio: data.precio,
           descripcion: data.descripcion,
           imagen: data.imagen,
+          cantidadDisponible: data.cantidadDisponible,
           categoria: {
             nombre: data.categoria.nombre,
           },
@@ -70,6 +72,7 @@ export function EditarProducto() {
           nombre: value,
         },
       });
+      
     } else {
       setProducto({
         ...producto,
@@ -78,7 +81,7 @@ export function EditarProducto() {
     }
   };
   const handleCancelar = () => {
-    navigate('/all');
+    navigate('/inventario');
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,7 +100,7 @@ export function EditarProducto() {
 
       if (response.ok) {
         console.log('Producto editado exitosamente');
-        navigate('/all');
+        navigate('/inventario');
       } else {
         console.error('Error al editar el producto');
       }
@@ -131,6 +134,7 @@ export function EditarProducto() {
         <input type="text" name="nombre" value={producto.nombre} onChange={handleChange} placeholder="Nombre del producto" required className="input" />
         <textarea name="descripcion" value={producto.descripcion} onChange={handleChange} placeholder="Descripción del producto" className="textarea"></textarea>
         <input type="text" name="precio" value={producto.precio} onChange={handleChange} placeholder="Precio" required className="input" />
+        <input type="number" value={producto.cantidadDisponible}  name="cantidadDisponible" onChange={handleChange} placeholder="Cantidad" required className="input" />
         <select name="categoria.nombre" onChange={handleChange} value={producto.categoria.nombre} required className="input">
         <option value="" disabled>Selecciona una categoría</option>
         {categorias.map((categoria) => (

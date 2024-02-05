@@ -18,4 +18,6 @@ public class Categoria  extends BaseEntity{
     @Column(name = "nombre")
     private String nombre;
 
+    
+
 }

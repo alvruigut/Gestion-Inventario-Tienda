@@ -10,15 +10,15 @@ export function Header() {
         </Link>
       </div>
       <div className="nav-links">
-        <Link to="/all" style={linkStyle}>
-          Productos
-        </Link>
         <Link to="/carrito" style={linkStyle}>
           Nuevo pedido
         </Link>
-        <Link to="/inventario" style={linkStyle}>
-          Inventario 
+        <Link to="/categorias" style={linkStyle}>
+          Categorias
         </Link>
+        <Link to="/inventario" style={linkStyle}>
+          Inventario
+        </Link>  
       </div>
     </div>
   );

@@ -26,6 +26,8 @@ public class Producto  extends BaseEntity{
     private String imagen;
     @Column(name = "disponible")
     private boolean disponible;
+    @Column(name = "cantidadDisponible")
+    private Integer cantidadDisponible;
     @ManyToOne
     @NonNull
     @JoinColumn(name = "categoria_id",referencedColumnName = "id")

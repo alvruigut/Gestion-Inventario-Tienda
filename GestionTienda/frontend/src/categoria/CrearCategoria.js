@@ -17,7 +17,7 @@ export function CrearCategoria() {
   };
 
   const handleCancelar = () => {
-    navigate('/all');
+    navigate('/categorias');
   };
 
   const handleSubmit = async (e) => {
@@ -33,7 +33,7 @@ export function CrearCategoria() {
 
     if (response.ok) {
       console.log('Categoria creado exitosamente');
-      navigate('/all');
+      navigate('/categorias');
     } else {
       console.error('Error al crear la categoria');
     }

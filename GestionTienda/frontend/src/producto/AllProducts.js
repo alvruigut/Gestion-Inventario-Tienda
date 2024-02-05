@@ -42,7 +42,7 @@ export function AllProducts() {
     setShowConfirmation(true);
   };
   const handleDelete = () => {
-    window.location.href = `/eliminar/${productToDelete}`;    
+    window.location.href = `/eliminar/${productToDelete}`;
     setShowConfirmation(false);
   };
 
@@ -70,17 +70,16 @@ export function AllProducts() {
   };
   return (
     <div style={containerStyle}>
-      <h1 style={{ color: '#ffffff' , marginTop: '40px'}}>Productos del Juanillo</h1>
+      <h1 style={{ color: '#ffffff', marginTop: '40px' }}>Productos del Juanillo</h1>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Link to="/crear" style={{ ...categoryButtonStyle, marginRight: '10px' }}>Agregar Nuevo Producto</Link>
-        <Link to="/crear/categoria" style={categoryButtonStyle}>Agregar Nueva Categoría</Link>
       </div>
       <div style={categoryButtonsStyle}>
-      <button style={categoryButtonStyle} onClick={() => handleShowAllProducts()}> Todos  </button>
-        {categorias.map((categoria) => ( <button key={categoria.id} style={categoryButtonStyle}  onClick={() => handleCategoryFilter(categoria.nombre)} > {categoria.nombre}
+        <button style={categoryButtonStyle} onClick={() => handleShowAllProducts()}> Todos  </button>
+        {categorias.map((categoria) => (<button key={categoria.id} style={categoryButtonStyle} onClick={() => handleCategoryFilter(categoria.nombre)} > {categoria.nombre}
         </button>
         ))}
-        
+
       </div>
       {products.map((product) => (
         <div key={product.id} style={productStyle}>
@@ -88,22 +87,21 @@ export function AllProducts() {
           <div>
             <div style={letras}>{product.nombre}: {product.precio}€</div>
             <div style={letras}>{product.descripcion || 'N/A'}</div>
-            <div style={letras}>{product.categoria.nombre}</div>
-            <Link to={`/editar/${product.nombre}`} style={editButtonStyle}>
-              Editar
-            </Link>
-            <button style={editButtonStyleDelete} onClick={() => handleDeleteConfirmation(product.nombre)} >
-            Eliminar
-             </button>
-        </div>
+            <div style={letras}> {product.disponible && product.cantidadDisponible>0 ? 'Stock: '+product.cantidadDisponible : 'No Disponible'}</div>
+            <div style={letras}>{'Categoria: '+product.categoria.nombre}</div>
+          </div>
+          <div style={cplus}>
+            <Link to={`/editar/${product.nombre}`} style={editButtonStyle}> Editar</Link>
+            <button style={editButtonStyleDelete} onClick={() => handleDeleteConfirmation(product.nombre)}>Eliminar</button>
+          </div>
         </div>
       ))}
 
       {showConfirmation && (
         <div style={confirmationStyle}>
           <p>{`¿Seguro que quieres eliminar el producto ${productToDelete}?`}</p>
-          <button style={yesButtonStyle}  onClick={handleDelete}>Aceptar</button>
-          <button  style={cancelButtonStyle}  onClick={handleCancelDelete}>Cancelar</button>
+          <button style={yesButtonStyle} onClick={handleDelete}>Aceptar</button>
+          <button style={cancelButtonStyle} onClick={handleCancelDelete}>Cancelar</button>
         </div>
       )}
     </div>
@@ -119,6 +117,13 @@ export function AllProducts() {
 
 
 
+const cplus = {
+  marginTop: '20px',
+  marginLeft: '15px',
+  display: 'flex',
+  flexDirection: 'column',
+
+};
 
 const categoryButtonsStyle = {
   display: 'flex',
@@ -131,9 +136,11 @@ const categoryButtonStyle = {
   backgroundColor: '#e6f7e6', /* Color verde */
   color: 'black', /* Letra blanca */
   border: 'none',
+  textDecoration: 'none', // Sin subrayado
+
   fontSize: '25px',
-  padding: '15px 25px',
-  margin: '0 10px',
+  padding: '10px',
+  margin: '5px',
   cursor: 'pointer',
   borderRadius: '15px',
 };
@@ -167,17 +174,19 @@ const confirmationStyle = {
   transform: 'translate(-50%, -50%)',
 };
 
+
 const editButtonStyle = {
   backgroundColor: 'blue', // Fondo verde oscuro
   color: '#ffffff', // Texto en color blanco
-  padding: '8px 16px', // Ajusta el espaciado interno
+  padding: '10px 16px', // Ajusta el espaciado interno
   borderRadius: '4px', // Bordes redondeados
   textDecoration: 'none', // Sin subrayado
   display: 'inline-block', // Alinear en línea
   marginTop: '10px', // Espacio superior
+  marginLeft: '10px', // Espacio derecho
+  fontFamily: 'Arial, sans-serif',
+  justifyContent: 'center',
 };
-
-
 
 const editButtonStyleDelete = {
   backgroundColor: 'red', // Fondo verde oscuro
@@ -205,7 +214,7 @@ const containerStyle = {
   justifyContent: 'center',
   minHeight: '100vh',
   backgroundColor: '#3d5e3a',
-  padding: '20px', 
+  padding: '20px',
 };
 
 const productStyle = {
@@ -221,7 +230,7 @@ const productStyle = {
 };
 
 const imageStyle = {
-  width: '200px', 
+  width: '200px',
   borderRadius: '10px',
   marginRight: '10px',
   height: '150px'

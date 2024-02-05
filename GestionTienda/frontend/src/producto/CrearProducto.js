@@ -12,7 +12,8 @@ export function CrearProducto() {
     nombre: '',
     descripcion: '',
     precio: 0,
-    disponible: false,
+    disponible: true,
+    cantidadDisponible: 0,
     categoria: {
       nombre: '',
     },
@@ -68,7 +69,7 @@ export function CrearProducto() {
     }
   };
   const handleCancelar = () => {
-    navigate('/all');
+    navigate('/inventario');
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,7 +87,7 @@ export function CrearProducto() {
 
     if (response.ok) {
       console.log('Producto creado exitosamente');
-      navigate('/all');
+      navigate('/inventario');
     } else {
       console.error('Error al crear el producto');
     }
@@ -107,7 +108,7 @@ export function CrearProducto() {
         <input type="text" name="nombre" onChange={handleChange} placeholder="Nombre del producto" required className="input" />
         <textarea name="descripcion" onChange={handleChange} placeholder="Descripción del producto" className="textarea"></textarea>
         <input type="text" name="precio" onChange={handleChange} placeholder="Precio" required className="input" />
-
+        <input type="number" name="cantidadDisponible" onChange={handleChange} placeholder="Cantidad" required className="input" />
         <select name="categoria.nombre" onChange={handleChange} value={producto.categoria.nombre} required className="input">
         <option value="" disabled>Selecciona una categoría</option>
         {categorias.map((categoria) => (

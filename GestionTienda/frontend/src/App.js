@@ -8,6 +8,10 @@ import {Header} from './utiles/Header';
 import { EditarProducto } from './producto/EditarProducto';
 import{EliminarProducto} from './producto/EliminarProducto';
 import {CrearCategoria} from './categoria/CrearCategoria.js';
+import {EliminarCategoria} from './categoria/EliminarCategoria.js';
+import {EditarCategoria} from './categoria/EditarCategoria.js';
+import {Categorias} from './categoria/Categorias.js';
+
 function HomePage() {
   return (
     <Fragment>
@@ -26,12 +30,15 @@ function App() {
         <main>  
           <Routes>
             <Route path="/" element={<HomePage/>}> </Route>
-            <Route path="/all" element={ <AllProducts/>} ></Route>
+            <Route path="/inventario" element={ <AllProducts/>} ></Route>
             <Route path="/carrito" element={ <Carrito/>} ></Route>
             <Route path="/crear" element={ <CrearProducto/>} ></Route>
             <Route path="/editar/:nombre" element={ <EditarProducto/>} ></Route>
             <Route path="/eliminar/:nombre" element={ <EliminarProducto/>} ></Route>
             <Route path="/crear/categoria" element={ <CrearCategoria/>} ></Route>
+            <Route path="/eliminar/categoria/:nombre" element={ <EliminarCategoria/>} ></Route>
+            <Route path="/editar/categoria/:nombre" element={ <EditarCategoria/>} ></Route>
+            <Route path="/categorias" element={ <Categorias/>} ></Route>
             
           </Routes>
         </main>  

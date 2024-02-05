@@ -2,14 +2,14 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-export function EliminarProducto() {
+export function EliminarCategoria() {
   const navigate = useNavigate();
   const { nombre } = useParams();
 
   useEffect(() => {
-    const eliminarProducto = async () => {
+    const eliminarCategoria = async () => {
       try {
-        const response = await fetch(`http://localhost:9000/api/productos/eliminar/${nombre}`, {
+        const response = await fetch(`http://localhost:9000/api/categorias/eliminar/${nombre}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -17,22 +17,22 @@ export function EliminarProducto() {
         });
 
         if (response.ok) {
-          console.log('Producto eliminado exitosamente');
-          navigate('/inventario');
+          console.log('Categoria eliminada exitosamente');
+          navigate('/categorias');
         } else {
-          console.error('Error al eliminar el producto');
+          console.error('Error al eliminar la categoria');
         }
       } catch (error) {
         console.error('Error al enviar la solicitud de eliminación', error);
       }
     };
 
-    eliminarProducto();
+    eliminarCategoria();
   }, [nombre, navigate]);
 
   return (
     <div>
-      <p>Eliminando producto...</p>
+      <p>Eliminando categoría...</p>
     </div>
   );
 }
