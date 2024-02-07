@@ -68,6 +68,7 @@ export function CrearProducto() {
       });
     }
   };
+  
   const handleCancelar = () => {
     navigate('/inventario');
   };

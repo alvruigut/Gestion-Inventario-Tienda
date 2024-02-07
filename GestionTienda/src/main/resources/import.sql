@@ -1,3 +1,6 @@
+insert into perfil (id, nombre) values (1, 'Juan');
+
+
 insert into Categoria(id,nombre) values (10,'refresco')
 insert into Categoria(id,nombre) values (20,'chuches')
 insert into Categoria(id,nombre) values (30,'snacks')
@@ -16,6 +19,3 @@ insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_di
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,categoria_id) values (800,'fregona',5.0,'pa limpia',null,true,   12,40)
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,categoria_id) values (900,'escoba',5.0,'pa limpia',null,true,    12,40)
 
---insert into Carrito(id, cantidad, producto_id) values (1, 2, 1)
---insert into Carrito(id, cantidad, producto_id) values (2, 4, 2)
---insert into Carrito(id, cantidad, producto_id) values (3, 7, 3)

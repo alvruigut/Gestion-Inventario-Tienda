@@ -8,17 +8,24 @@ export function Header() {
         <Link to="/" style={linkStyle}>
           Inicio
         </Link>
+        <Link to="/perfil" style={linkStyle}>
+          Perfil
+        </Link>
+
       </div>
       <div className="nav-links">
-        <Link to="/carrito" style={linkStyle}>
-          Nuevo pedido
-        </Link>
-        <Link to="/categorias" style={linkStyle}>
-          Categorias
+      <Link to="/fiacion" style={linkStyle}>
+          Morosos
         </Link>
         <Link to="/inventario" style={linkStyle}>
           Inventario
         </Link>  
+        <Link to="/categorias" style={linkStyle}>
+          Categorias
+        </Link>
+        <Link to="/carrito" style={linkStyle}>
+          Nuevo pedido
+        </Link>
       </div>
     </div>
   );

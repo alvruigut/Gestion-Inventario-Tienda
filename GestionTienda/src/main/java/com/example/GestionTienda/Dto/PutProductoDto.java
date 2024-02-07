@@ -17,8 +17,7 @@ public class PutProductoDto {
     private Categoria categoria;
     private int cantidadDisponible;
 
-    public PutProductoDto(String imagen, String nombre, String descripcion, double precio, boolean disponible,
-            Categoria categoria, int cantidadDisponible) {
+    public PutProductoDto(String imagen, String nombre, String descripcion, double precio, boolean disponible,Categoria categoria, int cantidadDisponible) {
         this.imagen = imagen;
         this.nombre = nombre;
         this.descripcion = descripcion;

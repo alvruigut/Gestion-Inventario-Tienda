@@ -26,17 +26,14 @@ public class CarritoService {
 
 
     public List<Carrito> findAllTodosLosCarritos(){
-
-            return     carritoRepository.findAll();
-
-
+            return carritoRepository.findAll();
     }
 
 
 
     public Carrito crearUnCarrito(){
         Carrito carrito1 = Carrito.builder()
-                .cantidad(null)
+                .cantidad(0)
                 .fechaCreacion(LocalDateTime.now())
                 .total(0.0)
                 .build();
