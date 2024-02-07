@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,14 +34,32 @@ public class CarritoController {
         List<Map<String, Object>> response = carritos.stream().map(carrito -> {
             Map<String, Object> map = new HashMap<>();
             map.put("id", carrito.getId());
-            map.put("Fecha Creacion", LocalDateTime.now());
+            map.put("Fecha Creacion", carrito.getFechaCreacion());
             map.put("Cantidad de productos", carrito.getCantidad());
             map.put("total", carrito.calcularTotal());
             return map;
         }).collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
-
+    @GetMapping("/allhoy")
+    public ResponseEntity<List<Map<String, Object>>> findAllHoy() {
+        List<Carrito> carritos = carritoService.findAllTodosLosCarritos();
+        List<Map<String, Object>> response = carritos.stream()
+                .filter(fecha -> fecha.getFechaCreacion().toLocalDate().equals(LocalDate.now()))
+                .sorted(Comparator.comparing(Carrito::getFechaCreacion).reversed())
+                .map(carrito -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("id", carrito.getId());
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    String fechaFormateada = carrito.getFechaCreacion().format(formatter);
+                    map.put("Fecha Creacion", fechaFormateada);
+                    map.put("Cantidad de productos", carrito.getCantidad());
+                    map.put("total", carrito.calcularTotal());
+                    return map;
+                })
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/new")
     public ResponseEntity<Carrito> crearUnoNuevo(){
