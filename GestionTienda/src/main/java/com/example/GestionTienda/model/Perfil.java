@@ -1,23 +1,25 @@
 package com.example.GestionTienda.model;
 
-import com.example.GestionTienda.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "categoria")
+@Table(name = "perfil")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
-public class Categoria  extends BaseEntity{
+public class Perfil{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "nombre")
     private String nombre;
 
+    @OneToMany
+    private List<Carrito> carrito;
     
-
 }

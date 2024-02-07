@@ -29,6 +29,7 @@ public class Carrito extends BaseEntity{
 
     @Column(name = "total")
     private double total;
+    
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LineaCarrito> lineasCarrito = new HashSet<>();
 

@@ -1,7 +1,9 @@
 package com.example.GestionTienda.service;
 
 import java.beans.Transient;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.example.GestionTienda.Dto.GetProductoDto;
@@ -62,6 +64,7 @@ public class ProductoService {
              .precio(postProductoDto.precio())
              .disponible(true)
              .categoria(categoria)
+             .cantidadDisponible(postProductoDto.cantidadDisponible())
              .imagen(postProductoDto.imagen())
              .build();
      producto = productoRepository.save(producto);
@@ -84,7 +87,12 @@ public class ProductoService {
             productoExistente.setNombre(producto.getNombre());
             productoExistente.setDescripcion(producto.getDescripcion());
             productoExistente.setPrecio(producto.getPrecio());
-            productoExistente.setDisponible(producto.isDisponible());
+            productoExistente.setCantidadDisponible(producto.getCantidadDisponible());
+            if (producto.getCantidadDisponible()>0){
+                productoExistente.setDisponible(true);
+            }else{
+                productoExistente.setDisponible(false);
+            }
             productoExistente.setCategoria(categoria);
         }
 
@@ -112,4 +120,16 @@ public class ProductoService {
         productoRepository.eliminarProductoPorNombre(nombre);
     }
 
+    public Map<String,Integer> listaDeCategorias() {
+        Map<String,Integer> res= new HashMap<>() ;
+        List<Categoria> categorias= categoriaRepository.listaDeCategorias();
+        for (Categoria categoria : categorias) {
+            Integer cantidad= productoRepository.cantidadProductosPorCategoria(categoria.getId());
+            String nombre= categoria.getNombre();
+            res.put(nombre, cantidad);
+        }
+      
+        return res;
+    
+    }
 }

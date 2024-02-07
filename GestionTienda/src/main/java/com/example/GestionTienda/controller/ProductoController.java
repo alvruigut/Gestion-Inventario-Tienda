@@ -1,6 +1,7 @@
 package com.example.GestionTienda.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.GestionTienda.Dto.PostProductoDto;
 import com.example.GestionTienda.Dto.PutProductoDto;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.GestionTienda.model.Categoria;
 import com.example.GestionTienda.model.Producto;
 import com.example.GestionTienda.service.ProductoService;
 
@@ -60,5 +62,10 @@ public class ProductoController {
     @GetMapping("/categoria/{nombre}")
     public ResponseEntity<List<Producto>> getProductByCategoryName(@PathVariable("nombre") String nombre) {
         return new ResponseEntity<>(productoService.findByCategoryName(nombre), HttpStatus.OK);
+    }
+
+    @GetMapping("/cantidad")
+    public ResponseEntity<Map<String,Integer>> cantidadProductosPorCategoria() {
+        return new ResponseEntity<>(productoService.listaDeCategorias(), HttpStatus.OK);
     }
 }
