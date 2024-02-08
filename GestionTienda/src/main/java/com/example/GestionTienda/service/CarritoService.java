@@ -86,6 +86,9 @@ public class CarritoService {
 
 
 
+    public void eliminarCarritoPorId(Long id){
+        carritoRepository.eliminarPorId(id);
+    }
 
 
 

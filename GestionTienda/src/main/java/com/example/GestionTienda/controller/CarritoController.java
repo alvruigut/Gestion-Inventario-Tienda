@@ -95,6 +95,9 @@ public class CarritoController {
         return resultado;
     }
 
+
+
+
     @DeleteMapping("/eliminar/{productoId}/{carritoId}")
     public void eliminarDelCarrito(@PathVariable Long productoId, @PathVariable Long carritoId) {
         Producto producto = productoService.obtenerProductoPorId(productoId).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
@@ -102,14 +105,10 @@ public class CarritoController {
         carritoService.eliminarProductoDelCarrito(carrito, producto);
     }
 
-
-
-
-
-
-
-
-
+    @DeleteMapping("/eliminar/{carritoId}")
+    public void eliminarCarrito(@PathVariable Long carritoId) {
+        carritoService.eliminarCarritoPorId(carritoId);
+    }
 
     @DeleteMapping("/vaciar")
     public void vaciarCarrito() {

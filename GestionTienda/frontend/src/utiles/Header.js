@@ -14,8 +14,8 @@ export function Header() {
 
       </div>
       <div className="nav-links">
-      <Link to="/fiacion" style={linkStyle}>
-          Morosos
+      <Link to="/carrito" style={linkStyle}>
+          Carrito
         </Link>
         <Link to="/inventario" style={linkStyle}>
           Inventario
@@ -23,8 +23,9 @@ export function Header() {
         <Link to="/categorias" style={linkStyle}>
           Categorias
         </Link>
-        <Link to="/carrito" style={linkStyle}>
-          Nuevo pedido
+ 
+        <Link to="/fiacion" style={linkStyle}>
+          Morosos
         </Link>
       </div>
     </div>

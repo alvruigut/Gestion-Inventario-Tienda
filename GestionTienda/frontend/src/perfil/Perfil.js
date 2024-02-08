@@ -33,13 +33,6 @@ export function Perfil() {
                                 <p>Cantidad de productos: {carrito.cantidadProductos}</p>
                                 <p>Fecha de creación: {carrito.fechaCreacion}</p>
                                 <p>Total: {carrito.total}€</p>
-                                <ul>
-                                    {carrito.lineasCarrito.map((linea, index) => (
-                                        <li key={index}>
-                                            Producto: {linea.producto.nombre}, Cantidad: {linea.cantidad}
-                                        </li>
-                                    ))}
-                                </ul>
                             </div>
                         ))}
                     </div>

@@ -18,4 +18,6 @@ insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_di
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,categoria_id) values (700,'tomate',1.0,'pa masticar',null,true,  12,70)
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,categoria_id) values (800,'fregona',5.0,'pa limpia',null,true,   12,40)
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,categoria_id) values (900,'escoba',5.0,'pa limpia',null,true,    12,40)
+insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,categoria_id) values (1000,'cubata',5.0,'pa beber',null,true,   12,50)
+insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,categoria_id) values (1100,'cerve',5.0,'pa beber',null,true,    12,50)
 

@@ -16,6 +16,7 @@ import {CrearMoroso} from './fiacion/CrearMoroso.js';
 import { EliminarMoroso } from './fiacion/EliminarMoroso.js';
 import { Perfil } from './perfil/Perfil.js';
 import { AddProductos } from './carrito/AddProductos.js';
+import { EliminarCarrito } from './carrito/EliminarCarrito.js';
 function HomePage() {
   return (
     <Fragment>
@@ -31,7 +32,8 @@ function App() {
   return (
     <Router>
       <Header />
-        <main>  
+
+        <main >  
           <Routes>
             <Route path="/" element={<HomePage/>}> </Route>
             <Route path="/inventario" element={ <AllProducts/>} ></Route>
@@ -47,9 +49,11 @@ function App() {
             <Route path="/crear/moroso" element={ <CrearMoroso/>} ></Route>
             <Route path="/eliminar/moroso/:nombre" element={ <EliminarMoroso/>} ></Route>
             <Route path="/perfil" element={ <Perfil/>} ></Route>
-            <Route path="/carrito/:id" element={ <AddProductos/>} ></Route>
+            <Route path="/carrito/:idCarrito" element={ <AddProductos/>} ></Route>
+            <Route path="/eliminar/carrito/:idCarrito" element={ <EliminarCarrito/>} ></Route>
           </Routes>
         </main>  
+
     </Router>
   )
 }
