@@ -157,7 +157,7 @@ const updateTotal = (updatedItems) => {
                     <button onClick={() => handleIncreaseQuantity(index)}>+</button> 
                     --- {item.precio*item.cantidad}€
                   </p>
-                  <button onClick={() => handleDeleteProductFromCart(item.producto.id)}>Eliminar</button>
+                  <button style={categoryButtonStyleF2} onClick={() => handleDeleteProductFromCart(item.producto.id)}>Eliminar</button>
                 </div>
               </div>
             </li>
@@ -195,19 +195,32 @@ const updateTotal = (updatedItems) => {
   
     </div>
   );
-          }
-          const categoryButtonStyleF = {
-            backgroundColor: '#e6f7e6',
-            color: 'black',
-            border: 'none',
-            textDecoration: 'none',
-            fontSize: '19px',
-            padding: '10px',
-            margin: '5px',
-            cursor: 'pointer',
-            borderRadius: '15px',
+}
+const categoryButtonStyleF = {
+  backgroundColor: '#e6f7e6',
+  color: 'black',
+  border: 'none',
+  textDecoration: 'none',
+  fontSize: '19px',
+  padding: '10px',
+  margin: '5px',
+  cursor: 'pointer',
+  borderRadius: '15px',
 
-          };
+};
+
+const categoryButtonStyleF2 = {
+  backgroundColor: '#e6f7e6',
+  color: 'black',
+  border: 'none',
+  textDecoration: 'none',
+  fontSize: '19px',
+  padding: '5px',
+  margin: '5px',
+  cursor: 'pointer',
+  borderRadius: '15px',
+
+};
 const letras = {
   fontSize: '20px',
   color: '#ffffff',
