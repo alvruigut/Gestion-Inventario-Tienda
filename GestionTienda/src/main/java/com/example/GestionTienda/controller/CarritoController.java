@@ -107,11 +107,16 @@ public class CarritoController {
 
     @DeleteMapping("/eliminar/{carritoId}")
     public void eliminarCarrito(@PathVariable Long carritoId) {
-        carritoService.eliminarCarritoPorId(carritoId);
+        try{
+            carritoService.eliminarCarritoPorId(carritoId);
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 
-    @DeleteMapping("/vaciar")
-    public void vaciarCarrito() {
-        carritoService.vaciarCarrito();
+    @DeleteMapping("/vaciar/{carritoId}")
+    public void vaciarCarrito(@PathVariable Long carritoId) {
+        carritoService.vaciarCarrito(carritoId);
     }
 }

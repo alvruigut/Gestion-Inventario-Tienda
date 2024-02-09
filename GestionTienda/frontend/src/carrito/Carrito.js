@@ -68,11 +68,13 @@ export function Carrito() {
       {carrito.map((carrito) => (
         <div key={carrito.id} style={productStyle}>
           <div>
-            <div style={letras}>Identificador: {carrito.id}</div>
+            <div style={letras}>Carrito: {carrito.id}</div>
             <div style={letras}>Fecha: {carrito['Fecha Creacion']}</div>
+            <div style={letras}>Ganancias: {carrito.total}€</div>
+
           </div>
           <div style={cplus}>
-            <Link to={`/carrito/${carrito.id}`} style={categoryButtonStyle}> Carrito </Link>
+            <Link to={`/carrito/${carrito.id}`} style={categoryButtonStyle}>Ver Carrito </Link>
             <button style={categoryButtonStyle} onClick={() => handleDelete(carrito.id)}>Eliminar</button>
           </div>
         </div>
