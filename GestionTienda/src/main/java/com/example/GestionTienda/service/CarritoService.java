@@ -1,21 +1,15 @@
 package com.example.GestionTienda.service;
 
-import com.example.GestionTienda.Dto.LineaCarritoDto;
 import com.example.GestionTienda.model.Carrito;
 import com.example.GestionTienda.model.LineaCarrito;
 import com.example.GestionTienda.model.Producto;
 import com.example.GestionTienda.repository.CarritoRepository;
-import com.example.GestionTienda.util.BaseEntity;
-import jakarta.persistence.ManyToOne;
-import lombok.NoArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.GestionTienda.model.Carrito;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,18 +20,16 @@ public class CarritoService {
 
 
     public List<Carrito> findAllTodosLosCarritos(){
-
-            return     carritoRepository.findAll();
-
-
+            return carritoRepository.findAll();
     }
 
 
 
     public Carrito crearUnCarrito(){
         Carrito carrito1 = Carrito.builder()
-                .cantidad(null)
+                .cantidad(0)
                 .fechaCreacion(LocalDateTime.now())
+                .lineasCarrito(new HashSet<>())
                 .total(0.0)
                 .build();
         carritoRepository.save(carrito1);
@@ -89,6 +81,17 @@ public class CarritoService {
 
 
 
+    public void eliminarCarritoPorId(Long id) {
+        Optional<Carrito> carritoOptional = carritoRepository.findById(id);
+        if (carritoOptional.isPresent()) {
+            Carrito carrito = carritoOptional.get();
+            carrito.getLineasCarrito().clear();
+            carritoRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("No se encontró el carrito con ID: " + id);
+        }
+    }
+
 
 
 
@@ -124,10 +127,13 @@ public class CarritoService {
     }
 
 
-    public void vaciarCarrito() {
-        carrito.clear();
+    public void vaciarCarrito(Long id) {
+        Carrito carrito = carritoRepository.findById(id).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        carrito.setCantidad(0);
+        carrito.getLineasCarrito().clear();
+        carrito.setTotal(0);
+        carritoRepository.save(carrito);
     }
-
-
+    
 
 }

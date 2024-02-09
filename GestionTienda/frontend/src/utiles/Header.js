@@ -8,16 +8,24 @@ export function Header() {
         <Link to="/" style={linkStyle}>
           Inicio
         </Link>
+        <Link to="/perfil" style={linkStyle}>
+          Perfil
+        </Link>
+
       </div>
       <div className="nav-links">
-        <Link to="/all" style={linkStyle}>
-          Todos los productos
-        </Link>
-        <Link to="/carrito" style={linkStyle}>
-          Nuevo pedido
+      <Link to="/carrito" style={linkStyle}>
+          Carrito
         </Link>
         <Link to="/inventario" style={linkStyle}>
-          Inventario 
+          Inventario
+        </Link>  
+        <Link to="/categorias" style={linkStyle}>
+          Categorias
+        </Link>
+ 
+        <Link to="/fiacion" style={linkStyle}>
+          Morosos
         </Link>
       </div>
     </div>
@@ -43,6 +51,8 @@ const logoStyle = {
 const linkStyle = {
   color: '#006600',
   fontFamily: 'Arial, sans-serif',
+  fontSize: '25px',
   textDecoration: 'none',
   margin: '0 10px',
+  
 };
