@@ -38,4 +38,6 @@ public interface ProductoRepository extends JpaRepository<Producto,Long> {
     @Query("DELETE FROM Producto p WHERE p.nombre = :nombre")
     void eliminarProductoPorNombre(@Param("nombre") String nombre);
 
+
+    List<Producto> findByCategoriaNombre(String nombreCategoria);
 }
