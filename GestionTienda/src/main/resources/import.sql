@@ -1,13 +1,14 @@
 insert into perfil (id, nombre) values (1, 'Juan');
 
 
-insert into Categoria(id,nombre) values (10,'refresco')
-insert into Categoria(id,nombre) values (20,'chuches')
-insert into Categoria(id,nombre) values (30,'snacks')
-insert into Categoria(id,nombre) values (40,'limpieza')
-insert into Categoria(id,nombre) values (50,'bebida alcoholica')
-insert into Categoria(id,nombre) values (60,'fruta')
-insert into Categoria(id,nombre) values (70,'verdura')
+insert into Categoria(id,nombre) values (10,'Refresco')
+insert into Categoria(id,nombre) values (20,'Chuches')
+insert into Categoria(id,nombre) values (30,'Snacks')
+insert into Categoria(id,nombre) values (40,'Limpieza')
+insert into Categoria(id,nombre) values (50,'Bebida alcoholica')
+insert into Categoria(id,nombre) values (60,'Fruta')
+insert into Categoria(id,nombre) values (70,'Verdura')
+insert into Categoria(id,nombre) values (80,'Sin Definir')
 
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,categoria_id) values (100,'coca',5.5,'bien fresquita','logo192.png',true,12,10)
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,categoria_id) values (200,'fanta',5.0,'bien fresquita',null,true,12,10)

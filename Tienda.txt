@@ -1,0 +1,16 @@
+Mejorar CreateProduct y EditProduct:
+	Hacer lo de las imágenes y editar imágenes bien al crear producto
+Financias:
+	Excel
+	Mejorar panel de perfil, añadir filtros por fechas dias, semanas, mes,año
+
+
+Código Barra:
+	Hacer código de barra(atributo en product, controladores...) y probarlo
+Implementación:
+	Estudiar como implementarlo en su equipo de forma automatizada y mejorar base de datos//hacer algo de import.sql y dejar properties en update siempre
+
+Mantenimiento:
+	Probarla durante una semana y pensamiento en el futuro
+
+

@@ -7,11 +7,12 @@ import com.example.GestionTienda.Dto.PostProductoDto;
 import com.example.GestionTienda.Dto.PutProductoDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.GestionTienda.model.Categoria;
+
 import com.example.GestionTienda.model.Producto;
 import com.example.GestionTienda.service.ProductoService;
 
@@ -21,7 +22,7 @@ public class ProductoController {
     @Autowired
     ProductoService productoService;
 
-
+    
      @GetMapping("/{id}")
      public ResponseEntity<Producto> getProductById(@PathVariable("id") int id) {
           return new ResponseEntity<>(productoService.findById(id), HttpStatus.OK);

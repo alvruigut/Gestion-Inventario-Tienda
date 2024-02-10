@@ -120,6 +120,7 @@ export function EditarProducto() {
     }
   };
 
+
   const { getRootProps, getInputProps } = useDropzone({ onDrop: handleDrop, accept: 'image/*' });
 
   return (
