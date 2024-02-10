@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -118,5 +117,15 @@ public class CarritoController {
     @DeleteMapping("/vaciar/{carritoId}")
     public void vaciarCarrito(@PathVariable Long carritoId) {
         carritoService.vaciarCarrito(carritoId);
+    }
+
+    @PutMapping("/aumentar/{productoName}/{carritoId}")
+    public Carrito aumentarCantidad(@PathVariable String productoName, @PathVariable Long carritoId) {
+        return carritoService.aumentarCantidadProducto(carritoId, productoName);
+    }
+
+    @PutMapping("/disminuir/{productoName}/{carritoId}")
+    public Carrito disminuirCantidad(@PathVariable String productoName, @PathVariable Long carritoId) {
+        return carritoService.disminuirCantidadProducto(carritoId, productoName);
     }
 }

@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 
 import java.util.HashSet;
 
-import java.util.Set;
+import java.util.*;
+import org.apache.tomcat.util.digester.ArrayStack;
 
 @Entity
 @Getter
@@ -30,8 +31,8 @@ public class Carrito extends BaseEntity{
     @Column(name = "total")
     private double total;
     
-    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<LineaCarrito> lineasCarrito = new HashSet<>();
+    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LineaCarrito> lineasCarrito ;
 
     public void agregarProducto(Producto producto) {
         LineaCarrito nuevaLinea = new LineaCarrito(producto, 1);

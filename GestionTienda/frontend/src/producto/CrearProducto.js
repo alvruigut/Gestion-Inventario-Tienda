@@ -105,12 +105,22 @@ export function CrearProducto() {
           {producto.imagen && <img src={producto.imagen} alt="Imagen seleccionada" className="dropzoneFoto" />}
         </div>
         <Gallery items={[{ src: producto.imagen }]} showPlayButton={false} showFullscreenButton={false} />
-
+        <div style={inputwrapper}>
         <input type="text" name="nombre" onChange={handleChange} placeholder="Nombre del producto" required className="input" />
+        <span style={asterisk}>*</span>
+        </div>
         <textarea name="descripcion" onChange={handleChange} placeholder="Descripción del producto" className="textarea"></textarea>
+        <div style={inputwrapper}>
         <input type="text" name="precio" onChange={handleChange} placeholder="Precio" required className="input" />
+        <span style={asterisk}>*</span>
+        </div>
+        <div style={inputwrapper}>
         <input type="number" name="cantidadDisponible" onChange={handleChange} placeholder="Cantidad" required className="input" />
+        <span style={asterisk}>*</span>
+        </div>
         <select name="categoria.nombre" onChange={handleChange} value={producto.categoria.nombre} required className="input">
+
+
         <option value="" disabled>Selecciona una categoría</option>
         {categorias.map((categoria) => (
           <option key={categoria.nombre} value={categoria.nombre}>{categoria.nombre}</option>
@@ -123,4 +133,17 @@ export function CrearProducto() {
       </form>
     </div>
   );
+}
+
+const inputwrapper ={
+  position: 'relative',
+};
+
+const asterisk= {
+  position: 'absolute',
+  top:' 50%',
+  right: '10px ',
+  transform: 'translateY(-50%)',
+  color: 'black',
+  fontSize: '30px', 
 }

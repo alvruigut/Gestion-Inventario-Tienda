@@ -46,7 +46,7 @@ export function Fiaciones () {
           {morosos.map((moro) => (
             <div key={moro.id} style={productStyle}>
                 <div style={letras}>Nombre: {moro.nombre}</div>
-                <div style={letras}>Móvil: {moro.movil}</div>
+                <div style={letras}>Información: {moro.movil}</div>
                 <div style={letras}>Debe: {moro.precio}€</div>
             <button style={editButtonStyleDelete} onClick={() => handleDeleteConfirmation(moro.nombre)}>Eliminar</button>
                 

@@ -15,7 +15,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class CarritoService {
 
-    private final Map<Long, LineaCarrito> carrito = new HashMap<>();
     private final CarritoRepository carritoRepository;
 
 
@@ -29,7 +28,7 @@ public class CarritoService {
         Carrito carrito1 = Carrito.builder()
                 .cantidad(0)
                 .fechaCreacion(LocalDateTime.now())
-                .lineasCarrito(new HashSet<>())
+                .lineasCarrito(new ArrayList<>())
                 .total(0.0)
                 .build();
         carritoRepository.save(carrito1);
@@ -135,5 +134,33 @@ public class CarritoService {
         carritoRepository.save(carrito);
     }
     
+
+    
+
+    public Carrito disminuirCantidadProducto(Long idCarrito, String nombreProducto){
+        Carrito carrito = carritoRepository.findById(idCarrito).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        List<LineaCarrito> conj= carrito.getLineasCarrito();
+        for (LineaCarrito linea : conj){
+            if (linea.getProducto().getNombre().equals(nombreProducto)){
+                if (linea.getCantidad() > 1){
+                    linea.setCantidad(linea.getCantidad()-1);
+                }
+            }
+        }
+        return carritoRepository.save(carrito);
+    }
+
+    public Carrito aumentarCantidadProducto(Long idCarrito, String nombreProducto){
+        Carrito carrito = carritoRepository.findById(idCarrito).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        List<LineaCarrito> conj= carrito.getLineasCarrito();
+        for (LineaCarrito linea : conj){
+            if (linea.getProducto().getNombre().equals(nombreProducto)){
+                linea.setCantidad(linea.getCantidad()+1);
+            }
+        }
+        carritoRepository.save(carrito);
+
+        return carritoRepository.save(carrito);
+    }
 
 }

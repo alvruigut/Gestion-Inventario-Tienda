@@ -56,19 +56,31 @@ const handleEmptyCart = async () => {
     console.error('Error al vaciar el carrito:', error);
   }
 };
-const handleIncreaseQuantity = (index) => {
+const handleIncreaseQuantity = async (index) => {
   const updatedItems = [...items];
   updatedItems[index].cantidad++;
   setItem(updatedItems);
   updateTotal(updatedItems);
+  const response = await fetch(`http://localhost:9000/carrito/aumentar/${updatedItems[index].producto.nombre}/${idCarrito}`, {
+    method: 'PUT'
+  });
+  if (!response.ok) {
+    console.error('Error al aumentar la cantidad del producto en el carrito:', response.status);
+  }
 };
 
-const handleDecreaseQuantity = (index) => {
+const handleDecreaseQuantity = async (index) => {
   const updatedItems = [...items];
   if (updatedItems[index].cantidad > 1) {
     updatedItems[index].cantidad--;
     setItem(updatedItems);
     updateTotal(updatedItems);
+    const response = await fetch(`http://localhost:9000/carrito/disminuir/${updatedItems[index].producto.nombre}/${idCarrito}`, {
+      method: 'PUT'
+    });
+    if (!response.ok) {
+      console.error('Error al disminuir la cantidad del producto en el carrito:', response.status);
+    }
   }
 };
 

@@ -128,13 +128,22 @@ export function EditarProducto() {
         <div {...getRootProps()} className="dropzone">
           <input {...getInputProps()} />
           <p>Arrastra imágenes aquí o haz clic para cambiarla</p>
-          {producto.imagen && <img src={producto.imagen} alt="Imagen seleccionada" className="dropzoneFoto" />}
+          {producto.imagen && <img src={'/'+producto.imagen} alt="Imagen seleccionada" className="dropzoneFoto" />}
         </div>
         <Gallery items={[{ src: producto.imagen }]} showPlayButton={false} showFullscreenButton={false} />
+        <div style={inputwrapper}>
         <input type="text" name="nombre" value={producto.nombre} onChange={handleChange} placeholder="Nombre del producto" required className="input" />
+        <span style={asterisk}>*</span>
+        </div>
         <textarea name="descripcion" value={producto.descripcion} onChange={handleChange} placeholder="Descripción del producto" className="textarea"></textarea>
+        <div style={inputwrapper}>
         <input type="text" name="precio" value={producto.precio} onChange={handleChange} placeholder="Precio" required className="input" />
+        <span style={asterisk}>*</span>
+        </div>
+        <div style={inputwrapper}>
         <input type="number" value={producto.cantidadDisponible}  name="cantidadDisponible" onChange={handleChange} placeholder="Cantidad" required className="input" />
+        <span style={asterisk}>*</span>
+        </div>
         <select name="categoria.nombre" onChange={handleChange} value={producto.categoria.nombre} required className="input">
         <option value="" disabled>Selecciona una categoría</option>
         {categorias.map((categoria) => (
@@ -149,3 +158,15 @@ export function EditarProducto() {
   );
 }
 
+const inputwrapper ={
+  position: 'relative',
+};
+
+const asterisk= {
+  position: 'absolute',
+  top:' 50%',
+  right: '10px ',
+  transform: 'translateY(-50%)',
+  color: 'black',
+  fontSize: '30px', 
+}
