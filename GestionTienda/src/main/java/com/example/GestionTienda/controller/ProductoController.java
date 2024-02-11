@@ -11,18 +11,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.GestionTienda.model.Producto;
 import com.example.GestionTienda.service.ProductoService;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 @RestController
 @RequestMapping("/api/productos")
 public class ProductoController {
     @Autowired
     ProductoService productoService;
 
-    
+    @PostMapping("/upload")
+public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
+    try {
+        String folderPath = "C:\\Users\\alvar\\Desktop\\Gestion-Inventario-Tienda\\GestionTienda\\frontend\\public\\";
+        Path path = Paths.get(folderPath + file.getOriginalFilename());
+        Files.write(path, file.getBytes());
+
+        return new ResponseEntity<>(file.getOriginalFilename(), HttpStatus.OK);
+
+    } catch (IOException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
      @GetMapping("/{id}")
      public ResponseEntity<Producto> getProductById(@PathVariable("id") int id) {
           return new ResponseEntity<>(productoService.findById(id), HttpStatus.OK);

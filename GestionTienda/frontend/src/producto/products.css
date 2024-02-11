@@ -79,7 +79,7 @@
 .dropzoneFoto {
   width: 90%;
   min-height: 10px;
-  border: 2px dashed #ccc;
+  border: 20px dashed #ccc;
   border-radius: 4px;
   text-align: center;
   cursor: pointer;

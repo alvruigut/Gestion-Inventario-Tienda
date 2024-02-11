@@ -9,6 +9,7 @@ import './products.css';
 export function EditarProducto() {
   const navigate = useNavigate();
   const { nombre } = useParams();
+  const [imagen, setImagen] = useState(null);
   const [categorias, setCategorias] = useState([]);
   const [producto, setProducto] = useState({
     nombre: '',
@@ -119,19 +120,46 @@ export function EditarProducto() {
       });
     }
   };
+  const handleAddImage = async (acceptedFiles) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
 
+      try {
+        const response = await fetch('http://localhost:9000/api/productos/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          const imageName = await response.text();
+          setImagen(imageName);
+        } else {
+          console.error('Error al cargar la imagen:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error al cargar la imagen:', error);
+      }
+    }
+  };
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop: handleDrop, accept: 'image/*' });
 
   return (
-    <div className="container">
-      <form onSubmit={handleSubmit} className="form">
+<div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '150px' }}>
+  <form onSubmit={handleSubmit} className="form" style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
+          <div>
+        <input type="file" onChange={(e) => handleAddImage(e.target.files)} accept="image/*" />
+      </div>
+      <Gallery items={[{ src: producto.imagen }]} showPlayButton={false} showFullscreenButton={false} />
         <div {...getRootProps()} className="dropzone">
           <input {...getInputProps()} />
           <p>Arrastra imágenes aquí o haz clic para cambiarla</p>
           {producto.imagen && <img src={'/'+producto.imagen} alt="Imagen seleccionada" className="dropzoneFoto" />}
         </div>
         <Gallery items={[{ src: producto.imagen }]} showPlayButton={false} showFullscreenButton={false} />
+
         <div style={inputwrapper}>
         <input type="text" name="nombre" value={producto.nombre} onChange={handleChange} placeholder="Nombre del producto" required className="input" />
         <span style={asterisk}>*</span>
