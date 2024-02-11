@@ -7,6 +7,7 @@ import './products.css';
 
 export function CrearProducto() {
   const navigate = useNavigate();
+  const [imagen, setImagen] = useState(null);
   const [producto, setProducto] = useState({
     imagen: '',
     nombre: '',
@@ -68,6 +69,29 @@ export function CrearProducto() {
       });
     }
   };
+  const handleAddImage = async (acceptedFiles) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const response = await fetch('http://localhost:9000/api/productos/upload', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          const imageName = await response.text();
+          setImagen(imageName);
+        } else {
+          console.error('Error al cargar la imagen:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error al cargar la imagen:', error);
+      }
+    }
+  };
   
   const handleCancelar = () => {
     navigate('/inventario');
@@ -99,6 +123,10 @@ export function CrearProducto() {
   return (
     <div className="container">
       <form onSubmit={handleSubmit} className="form">
+      <div>
+        <input type="file" onChange={(e) => handleAddImage(e.target.files)} accept="image/*" />
+      </div>
+      <Gallery items={[{ src: producto.imagen }]} showPlayButton={false} showFullscreenButton={false} />
         <div {...getRootProps()} className="dropzone">
           <input {...getInputProps()} />
           <p>Arrastra imágenes aquí o haz clic para seleccionar</p>

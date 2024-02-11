@@ -1,9 +1,9 @@
-Mejorar CreateProduct y EditProduct:
-	Hacer lo de las imágenes y editar imágenes bien al crear producto
+Borrar Productos en Ingresos...
+Manejo del stock
+
 Financias:
 	Excel
-	Mejorar panel de perfil, añadir filtros por fechas dias, semanas, mes,año
-
+	Mejorar panel de perfil, añadir filtros por fechas dias, semanas, mes,año,Perfl:Poner hora de compra
 
 Código Barra:
 	Hacer código de barra(atributo en product, controladores...) y probarlo

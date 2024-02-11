@@ -29,8 +29,12 @@ public class ProductoController {
     @PostMapping("/upload")
 public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
     try {
-        String folderPath = "C:\\Users\\alvar\\Desktop\\Gestion-Inventario-Tienda\\GestionTienda\\frontend\\public\\";
-        Path path = Paths.get(folderPath + file.getOriginalFilename());
+        String currentDir = System.getProperty("user.dir");
+        String relativePath = "frontend\\public\\";
+        String folderPath = Paths.get(currentDir, relativePath).toString();
+
+        Path path = Paths.get(folderPath, file.getOriginalFilename());
+        System.out.println(folderPath);
         Files.write(path, file.getBytes());
 
         return new ResponseEntity<>(file.getOriginalFilename(), HttpStatus.OK);
