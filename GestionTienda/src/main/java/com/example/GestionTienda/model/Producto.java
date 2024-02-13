@@ -28,9 +28,21 @@ public class Producto  extends BaseEntity{
     private boolean disponible;
     @Column(name = "cantidadDisponible")
     private Integer cantidadDisponible;
+    // En tu clase Producto
+    @Column(name = "barcodeFilePath")
+    private String barcodeFilePath;
+
     @ManyToOne
     @NonNull
     @JoinColumn(name = "categoria_id",referencedColumnName = "id")
     private Categoria categoria;
+
+    public String getBarcodeFilePath() {
+        return barcodeFilePath;
+    }
+
+    public void setBarcodeFilePath(String barcodeFilePath) {
+        this.barcodeFilePath = barcodeFilePath;
+    }
     
 }

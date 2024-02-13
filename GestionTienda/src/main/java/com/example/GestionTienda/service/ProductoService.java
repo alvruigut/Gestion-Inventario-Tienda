@@ -1,6 +1,7 @@
 package com.example.GestionTienda.service;
 
 import java.beans.Transient;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import com.example.GestionTienda.Dto.GetProductoDto;
 import com.example.GestionTienda.Dto.PostProductoDto;
 import com.example.GestionTienda.Dto.PutProductoDto;
 
+import com.example.GestionTienda.model.BarcodeGenerator;
 import com.example.GestionTienda.model.Carrito;
 import com.example.GestionTienda.model.Categoria;
 import com.example.GestionTienda.repository.CarritoRepository;
@@ -57,19 +59,34 @@ public class ProductoService {
 
     //crear un nuevo producto
     public PostProductoDto crearNuevoProducto(PostProductoDto postProductoDto){
-    Categoria categoria = categoriaRepository.findByName(postProductoDto.categoria().getNombre());
-    Producto producto = Producto.builder()
-             .nombre(postProductoDto.nombre())
-             .descripcion(postProductoDto.descripcion())
-             .precio(postProductoDto.precio())
-             .disponible(true)
-             .categoria(categoria)
-             .cantidadDisponible(postProductoDto.cantidadDisponible())
-             .imagen(postProductoDto.imagen())
-             .build();
-     producto = productoRepository.save(producto);
-     return PostProductoDto.of(producto);
+        Categoria categoria = categoriaRepository.findByName(postProductoDto.categoria().getNombre());
+        Producto producto = Producto.builder()
+                .nombre(postProductoDto.nombre())
+                .descripcion(postProductoDto.descripcion())
+                .precio(postProductoDto.precio())
+                .disponible(true)
+                .categoria(categoria)
+                .cantidadDisponible(postProductoDto.cantidadDisponible())
+                .imagen(postProductoDto.imagen())
+                .build();
+        producto = productoRepository.save(producto);
+
+        try {
+            String barcodeFilePath = new File("src/main/resources/codigoDeBarras/" + producto.getId() + ".png").getAbsolutePath();
+
+
+
+            BarcodeGenerator.generateBarcodeImage(producto.getId().toString(), barcodeFilePath);
+            producto.setBarcodeFilePath(barcodeFilePath);
+        } catch (Exception e) {
+
+        }
+
+
+        return PostProductoDto.of(producto);
+
     }
+
 
     @Transactional(readOnly = true)
     public Producto findByName(String nombre) throws DataAccessException {

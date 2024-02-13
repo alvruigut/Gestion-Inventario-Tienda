@@ -8,7 +8,12 @@ import com.example.GestionTienda.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -69,12 +74,24 @@ public class CarritoController {
         return ResponseEntity.ok(carrito);
     }
 
-    @PostMapping("/agregar/{productoId}/{carritoId}")
-    public void agregarAlCarrito(@PathVariable Long productoId, @PathVariable Long carritoId) {
-        Producto producto = productoService.obtenerProductoPorId(productoId).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+    @PostMapping("/agregar/{barcodeFilePath}/{carritoId}")
+    public void agregarAlCarrito(@PathVariable String barcodeFilePath, @PathVariable Long carritoId) {
         Carrito carrito = carritoService.buscarCarritoPorId(carritoId).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
-        carritoService.agregarProductoAlCarrito(carrito, producto);
+        carritoService.agregarProductoAlCarrito(carrito, barcodeFilePath);
     }
+    @PostMapping("/agrega/{carritoId}")
+    public void agregarAlCarrito1(@PathVariable Long carritoId, @RequestParam("barcodeImage") MultipartFile barcodeImage) throws IOException {
+        Carrito carrito = carritoService.buscarCarritoPorId(carritoId).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+
+        File tempFile = File.createTempFile("barcode", ".png");
+        try (OutputStream os = new FileOutputStream(tempFile)) {
+            os.write(barcodeImage.getBytes());
+        }
+
+        carritoService.agregarProductoAlCarrito(carrito, tempFile.getAbsolutePath());
+    }
+
+
 
     @GetMapping("/ver/{carritoId}")
     public Map<String, Object> verCarrito(@PathVariable Long carritoId) {

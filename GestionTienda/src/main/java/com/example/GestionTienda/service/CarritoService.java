@@ -1,10 +1,12 @@
 package com.example.GestionTienda.service;
 
+import com.example.GestionTienda.model.BarcodeReader;
 import com.example.GestionTienda.model.Carrito;
 import com.example.GestionTienda.model.LineaCarrito;
 import com.example.GestionTienda.model.Producto;
 import com.example.GestionTienda.repository.CarritoRepository;
 
+import com.example.GestionTienda.repository.ProductoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ public class CarritoService {
 
     private final Map<Long, LineaCarrito> carrito = new HashMap<>();
     private final CarritoRepository carritoRepository;
+    private final ProductoRepository productoRepository;
 
 
     public List<Carrito> findAllTodosLosCarritos(){
@@ -45,25 +48,31 @@ public class CarritoService {
         }
     }
 
-    public void agregarProductoAlCarrito(Carrito carrito, Producto producto) {
-        LineaCarrito lineaExistente = carrito.getLineasCarrito().stream()
-                .filter(linea -> linea.getProducto().getId().equals(producto.getId()))
-                .findFirst()
-                .orElse(null);
+    public void agregarProductoAlCarrito(Carrito carrito, String barcodeFilePath) {
+        try {
+            String productId = BarcodeReader.readBarcodeFromImage(barcodeFilePath);
 
-        if (lineaExistente != null) {
+            Producto producto = productoRepository.findById(Long.parseLong(productId)).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-            lineaExistente.aumentarCantidad();
-        } else {
+            LineaCarrito lineaExistente = carrito.getLineasCarrito().stream()
+                    .filter(linea -> linea.getProducto().getId().equals(producto.getId()))
+                    .findFirst()
+                    .orElse(null);
 
-            LineaCarrito nuevaLinea = new LineaCarrito(producto, 1);
-            nuevaLinea.setCarrito(carrito);
-            carrito.getLineasCarrito().add(nuevaLinea);
+            if (lineaExistente != null) {
+                lineaExistente.aumentarCantidad();
+            } else {
+                LineaCarrito nuevaLinea = new LineaCarrito(producto, 1);
+                nuevaLinea.setCarrito(carrito);
+                carrito.getLineasCarrito().add(nuevaLinea);
+            }
+
+            carritoRepository.save(carrito);
+            actualizarTotalCarrito(carrito);
+        } catch (Exception e) {
         }
-
-        carritoRepository.save(carrito);
-        actualizarTotalCarrito(carrito);
     }
+
 
 
     public void actualizarTotalCarrito(Carrito carrito) {
