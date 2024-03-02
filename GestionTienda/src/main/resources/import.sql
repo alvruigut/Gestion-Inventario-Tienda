@@ -25,3 +25,5 @@ insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_di
 insert into carrito(id,cantidad, fecha_creacion, total) values (100,2, '2024-02-08T00:00:00', 10.0)
 insert into linea_carrito(cantidad,carrito_id,id, producto_id ) values (1,100,1,100)
 insert into  carrito_lineas_carrito(carrito_id, lineas_carrito_id) values (100,1)
+
+insert into contrasena(id,pin) values(100,1234)

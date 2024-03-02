@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export function Perfil() {
   const [perfil, setPerfil] = useState(null);
@@ -78,6 +79,7 @@ export function Perfil() {
   return (
       <div style={containerStyle}>
           <h1 style={letras3}>Perfil</h1>
+          <Link to="/editar/contrasena" style={letras}>Cambiar contraseña</Link>
           <div>
               <label style={letras} htmlFor="fecha">Selecciona una fecha: </label>
               <input

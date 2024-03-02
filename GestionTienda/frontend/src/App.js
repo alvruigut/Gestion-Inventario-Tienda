@@ -17,6 +17,7 @@ import { EliminarMoroso } from './fiacion/EliminarMoroso.js';
 import { Perfil } from './perfil/Perfil.js';
 import { AddProductos } from './carrito/AddProductos.js';
 import { EliminarCarrito } from './carrito/EliminarCarrito.js';
+import {EditarContrasena} from './perfil/EditarContrasena.js';
 function HomePage() {
   return (
     <Fragment>
@@ -49,6 +50,7 @@ function App() {
             <Route path="/crear/moroso" element={ <CrearMoroso/>} ></Route>
             <Route path="/eliminar/moroso/:nombre" element={ <EliminarMoroso/>} ></Route>
             <Route path="/perfil" element={ <Perfil/>} ></Route>
+            <Route path="/editar/contrasena" element={ <EditarContrasena/>} ></Route>
             <Route path="/carrito/:idCarrito" element={ <AddProductos/>} ></Route>
             <Route path="/eliminar/carrito/:idCarrito" element={ <EliminarCarrito/>} ></Route>
           </Routes>

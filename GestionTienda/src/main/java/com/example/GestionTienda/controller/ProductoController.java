@@ -73,9 +73,12 @@ public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
     @DeleteMapping("/eliminar/{nombre}")
     public ResponseEntity<String> eliminarProducto(@PathVariable String nombre) {
         try {
+
             productoService.eliminarProductoPorNombre(nombre);
             return new ResponseEntity<>("Producto eliminado exitosamente", HttpStatus.OK);
         } catch (Exception e) {
+            Producto producto = productoService.findByName(nombre);
+            producto.setDisponible(false);
             return new ResponseEntity<>("Error al eliminar el producto", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
