@@ -13,7 +13,6 @@ export function Categorias() {
         const response = await fetch('http://localhost:9000/api/productos/cantidad');
         const data = await response.json();
 
-        // Convertir el objeto en un array de objetos
         const categoriasArray = Object.keys(data).map(nombre => ({
           nombre,
           cantidad: data[nombre],
@@ -29,12 +28,10 @@ export function Categorias() {
   }, []);
 
   const handleDeleteConfirmation = (c, cantidad) => {
-    if (cantidad >= 1) {
-      alert('Juan no se puede eliminar una categoria si hay productos asociados a esta categoria');
-    } else {
+ 
       setCategoriaToDelete(c);
       setShowConfirmation(true);
-    }
+    
   };
 
   const handleDelete = () => {

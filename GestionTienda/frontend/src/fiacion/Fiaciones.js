@@ -46,7 +46,7 @@ export function Fiaciones () {
           {morosos.map((moro) => (
             <div key={moro.id} style={productStyle}>
                 <div style={letras}>Nombre: {moro.nombre}</div>
-                <div style={letras}>Móvil: {moro.movil}</div>
+                <div style={letras}>Información: {moro.movil}</div>
                 <div style={letras}>Debe: {moro.precio}€</div>
             <button style={editButtonStyleDelete} onClick={() => handleDeleteConfirmation(moro.nombre)}>Eliminar</button>
                 
@@ -63,24 +63,11 @@ export function Fiaciones () {
   );
 };
 
-const cplus = {
-    marginTop: '10px',
-    marginLeft: '15px',
-    display: 'flex',
-    flexDirection: 'column',
-};
-  const categoryButtonsStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '10px',
-    marginBottom: '15px',
-  };
-  
   const categoryButtonStyle = {
-    backgroundColor: '#e6f7e6', /* Color verde */
-    color: 'black', /* Letra blanca */
+    backgroundColor: '#e6f7e6', 
+    color: 'black',
     border: 'none',
-    textDecoration: 'none', // Sin subrayado
+    textDecoration: 'none', 
   
     fontSize: '25px',
     padding: '10px',
@@ -117,21 +104,7 @@ const cplus = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
   };
-  
-  
-  const editButtonStyle = {
-    backgroundColor: 'blue', // Fondo verde oscuro
-    color: '#ffffff', // Texto en color blanco
-    padding: '10px 16px', // Ajusta el espaciado interno
-    borderRadius: '4px', // Bordes redondeados
-    textDecoration: 'none', // Sin subrayado
-    display: 'inline-block', // Alinear en línea
-    marginTop: '10px', // Espacio superior
-    marginLeft: '10px', // Espacio derecho
-    fontFamily: 'Arial, sans-serif',
-    justifyContent: 'center',
-  };
-  
+
   const editButtonStyleDelete = {
     backgroundColor: 'red', // Fondo verde oscuro
     color: '#ffffff', // Texto en color blanco

@@ -1,27 +1,20 @@
 package com.example.GestionTienda.service;
 
-import com.example.GestionTienda.Dto.LineaCarritoDto;
 import com.example.GestionTienda.model.Carrito;
 import com.example.GestionTienda.model.LineaCarrito;
 import com.example.GestionTienda.model.Producto;
 import com.example.GestionTienda.repository.CarritoRepository;
-import com.example.GestionTienda.util.BaseEntity;
-import jakarta.persistence.ManyToOne;
-import lombok.NoArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.GestionTienda.model.Carrito;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CarritoService {
 
-    private final Map<Long, LineaCarrito> carrito = new HashMap<>();
     private final CarritoRepository carritoRepository;
 
 
@@ -35,6 +28,7 @@ public class CarritoService {
         Carrito carrito1 = Carrito.builder()
                 .cantidad(0)
                 .fechaCreacion(LocalDateTime.now())
+                .lineasCarrito(new ArrayList<>())
                 .total(0.0)
                 .build();
         carritoRepository.save(carrito1);
@@ -86,6 +80,17 @@ public class CarritoService {
 
 
 
+    public void eliminarCarritoPorId(Long id) {
+        Optional<Carrito> carritoOptional = carritoRepository.findById(id);
+        if (carritoOptional.isPresent()) {
+            Carrito carrito = carritoOptional.get();
+            carrito.getLineasCarrito().clear();
+            carritoRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("No se encontró el carrito con ID: " + id);
+        }
+    }
+
 
 
 
@@ -121,10 +126,41 @@ public class CarritoService {
     }
 
 
-    public void vaciarCarrito() {
-        carrito.clear();
+    public void vaciarCarrito(Long id) {
+        Carrito carrito = carritoRepository.findById(id).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        carrito.setCantidad(0);
+        carrito.getLineasCarrito().clear();
+        carrito.setTotal(0);
+        carritoRepository.save(carrito);
+    }
+    
+
+    
+
+    public Carrito disminuirCantidadProducto(Long idCarrito, String nombreProducto){
+        Carrito carrito = carritoRepository.findById(idCarrito).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        List<LineaCarrito> conj= carrito.getLineasCarrito();
+        for (LineaCarrito linea : conj){
+            if (linea.getProducto().getNombre().equals(nombreProducto)){
+                if (linea.getCantidad() > 1){
+                    linea.setCantidad(linea.getCantidad()-1);
+                }
+            }
+        }
+        return carritoRepository.save(carrito);
     }
 
+    public Carrito aumentarCantidadProducto(Long idCarrito, String nombreProducto){
+        Carrito carrito = carritoRepository.findById(idCarrito).orElseThrow(() -> new RuntimeException("Carrito no encontrado"));
+        List<LineaCarrito> conj= carrito.getLineasCarrito();
+        for (LineaCarrito linea : conj){
+            if (linea.getProducto().getNombre().equals(nombreProducto)){
+                linea.setCantidad(linea.getCantidad()+1);
+            }
+        }
+        carritoRepository.save(carrito);
 
+        return carritoRepository.save(carrito);
+    }
 
 }

@@ -1,136 +1,114 @@
 import React, { useEffect, useState } from 'react';
 
 export function Perfil() {
-    const [perfil, setPerfil] = useState(null);
+  const [perfil, setPerfil] = useState(null);
+  const [fechaFiltro, setFechaFiltro] = useState(() => {
+      // Recuperar la fecha seleccionada del localStorage o usar la fecha actual
+      const storedDate = localStorage.getItem('fechaFiltro');
+      return storedDate ? new Date(storedDate) : new Date();
+  });
+  const [ganancias, setGanancias] = useState(0);
+  const [errorFecha, setErrorFecha] = useState(false); // Estado para controlar el error de fecha
 
-    useEffect(() => {
-        fetchPerfil();
-    }, []);
+  useEffect(() => {
+      fetchPerfil();
+  }, [fechaFiltro]); // Vuelve a obtener los datos del perfil cuando cambia la fecha
 
-    const fetchPerfil = async () => {
-        try {
-            const response = await fetch('http://localhost:9000/perfil/all');
-            if (!response.ok) {
-                throw new Error('No se pudo obtener el perfil');
-            }
-            const data = await response.json();
-            setPerfil(data);
-        } catch (error) {
-            console.error('Error al obtener el perfil:', error);
-        }
-    };
+  useEffect(() => {
+      // Almacenar la fecha seleccionada en el localStorage
+      localStorage.setItem('fechaFiltro', fechaFiltro.toISOString());
+  }, [fechaFiltro]);
 
-    return (
-        <div style={containerStyle}>
-            <h1>Perfil</h1>
-            {perfil && (
-                <div>
-                    <h3>Ingresos: {perfil.ingresos}€</h3>
-                    <div>
-                        {perfil.carritos.map((carrito, index) => (
-                            <div key={index}>
-                                <h4>Carrito {index + 1}</h4>
-                                <p>Cantidad de productos: {carrito.cantidadProductos}</p>
-                                <p>Fecha de creación: {carrito.fechaCreacion}</p>
-                                <p>Total: {carrito.total}€</p>
-                                <ul>
-                                    {carrito.lineasCarrito.map((linea, index) => (
-                                        <li key={index}>
-                                            Producto: {linea.producto.nombre}, Cantidad: {linea.cantidad}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-        </div>
-    );
+  const fetchPerfil = async () => {
+      try {
+          const response = await fetch('http://localhost:9000/perfil/all');
+          if (!response.ok) {
+              throw new Error('No se pudo obtener el perfil');
+          }
+          const data = await response.json();
+          setPerfil(data);
+          calcularGanancias(data);
+      } catch (error) {
+          console.error('Error al obtener el perfil:', error);
+      }
+  };
+
+  const calcularGanancias = (data) => {
+      if (!data || !data.carritos) {
+          setGanancias(0);
+          return;
+      }
+      
+      const gananciasFiltradas = data.carritos
+          .filter(carrito => {
+              const fechaCarrito = new Date(carrito.fechaCreacion);
+              return (
+                  fechaCarrito.getFullYear() === fechaFiltro.getFullYear() &&
+                  fechaCarrito.getMonth() === fechaFiltro.getMonth() &&
+                  fechaCarrito.getDate() === fechaFiltro.getDate()
+              );
+          })
+          .reduce((total, carrito) => total + carrito.total, 0);
+
+      setGanancias(gananciasFiltradas);
+  };
+
+  const filtrarPorFecha = (carrito) => {
+      const fechaCarrito = new Date(carrito.fechaCreacion);
+      return (
+          fechaCarrito.getFullYear() === fechaFiltro.getFullYear() &&
+          fechaCarrito.getMonth() === fechaFiltro.getMonth() &&
+          fechaCarrito.getDate() === fechaFiltro.getDate()
+      );
+  };
+
+  const handleFechaChange = (e) => {
+      const inputValue = e.target.value;
+      const isValidDate = !!Date.parse(inputValue); // Verificar si la fecha es válida
+      
+      if (!isValidDate) {
+          setErrorFecha(true);
+          return;
+      }
+      
+      setErrorFecha(false);
+      setFechaFiltro(new Date(inputValue));
+  };
+
+  return (
+      <div style={containerStyle}>
+          <h1 style={letras3}>Perfil</h1>
+          <div>
+              <label style={letras} htmlFor="fecha">Selecciona una fecha: </label>
+              <input
+                  type="date"
+                  id="fecha"
+                  value={fechaFiltro.toISOString().split('T')[0]} // Formato ISO para input date
+                  onChange={handleFechaChange}
+                  style={{ width: '180px', height: '40px', fontSize: '18px', backgroundColor: '#6b8f68', border: 'none', borderRadius: '5px', marginBottom: '20px'}}
+              />
+          </div>
+          <h1 style={letras2}>Ingresos: {ganancias}€</h1> 
+
+          {perfil && (
+              <div>
+                  {perfil.carritos
+                      .filter(filtrarPorFecha) // Filtrar carritos por fecha
+                      .map((carrito, index) => (
+                          <div key={index} style={box}>
+                              <h4 style={letras}>Carrito {index + 1}</h4>
+                              <p style={letras}>Cantidad de productos: {carrito.cantidadProductos}</p>
+                              <p style={letras}>Fecha: {carrito.fechaCreacion}</p>
+                              <p style={letras}>Total: {carrito.total}€</p>
+                          </div>
+                      ))}
+              </div>
+          )}
+      </div>
+  );
 }
 
 
-const cplus = {
-    marginTop: '20px',
-    marginLeft: '15px',
-    display: 'flex',
-    flexDirection: 'column',
-  
-  };
-  
-  const categoryButtonsStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '10px',
-    marginBottom: '15px',
-  };
-  
-  const categoryButtonStyle = {
-    backgroundColor: '#e6f7e6', /* Color verde */
-    color: 'black', /* Letra blanca */
-    border: 'none',
-    textDecoration: 'none', // Sin subrayado
-  
-    fontSize: '25px',
-    padding: '10px',
-    margin: '5px',
-    cursor: 'pointer',
-    borderRadius: '15px',
-  };
-  
-  
-  const yesButtonStyle = {
-    background: '#28a745',
-    color: '#ffffff',
-    padding: '8px 16px', // Ajusta el espaciado interno
-    marginLeft: '100px',
-    borderRadius: '4px', // Bordes redondeados
-  
-  };
-  
-  const cancelButtonStyle = {
-    background: '#dc3545',
-    color: '#ffffff',
-    padding: '8px 16px', // Ajusta el espaciado interno
-    marginLeft: '15px',
-    borderRadius: '4px', // Bordes redondeados
-  
-  };
-  
-  const confirmationStyle = {
-    background: '#e6f7e6',
-    padding: '10px',
-    borderRadius: '5px',
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-  };
-  
-  
-  const editButtonStyle = {
-    backgroundColor: 'blue', // Fondo verde oscuro
-    color: '#ffffff', // Texto en color blanco
-    padding: '10px 16px', // Ajusta el espaciado interno
-    borderRadius: '4px', // Bordes redondeados
-    textDecoration: 'none', // Sin subrayado
-    display: 'inline-block', // Alinear en línea
-    marginTop: '10px', // Espacio superior
-    marginLeft: '10px', // Espacio derecho
-    fontFamily: 'Arial, sans-serif',
-    justifyContent: 'center',
-  };
-  
-  const editButtonStyleDelete = {
-    backgroundColor: 'red', // Fondo verde oscuro
-    color: '#ffffff', // Texto en color blanco
-    padding: '10px 16px', // Ajusta el espaciado interno
-    borderRadius: '4px', // Bordes redondeados
-    textDecoration: 'none', // Sin subrayado
-    display: 'inline-block', // Alinear en línea
-    marginTop: '10px', // Espacio superior
-    marginLeft: '10px', // Espacio derecho
-  };
   const letras = {
     fontSize: '20px',
     color: '#ffffff',
@@ -138,33 +116,41 @@ const cplus = {
     fontFamily: 'Arial, sans-serif',
     fontWeight: 'bold',
   };
-  
+  const letras2 = {
+    fontSize: '30px',
+    color: '#ffffff',
+    marginBottom: '10px',
+    fontFamily: 'Arial, sans-serif',
+    fontWeight: 'bold',
+  };  
+  const letras3 = {
+    fontSize: '40px',
+    color: '#ffffff',
+    marginBottom: '10px',
+    fontFamily: 'Arial, sans-serif',
+    fontWeight: 'bold',
+  };
   
   const containerStyle = {
     display: 'flex',
     flexDirection: 'column',
-    
-    justifyContent: 'center',
+    alignItems: 'center', 
     minHeight: '100vh',
     backgroundColor: '#3d5e3a',
     padding: '20px',
-  };
+};
+
+const box={
+  backgroundColor: '#4d6e4a',
+  padding: '20px',
+  margin: '20px',
+  borderRadius: '20px',
+  boxShadow: '0 0 10px rgba(0, 0, 0, 0.15)',
+  width: '100%',
+  textAlign: 'center',
+  fontSize: '20px',
+  lineHeight: '1.5',
+  marginBottom: '10px',
+
+}
   
-  const productStyle = {
-    marginBottom: '20px',
-    border: '2px solid #1f3d20',
-    padding: '15px',
-    width: '90%',
-    boxSizing: 'border-box',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    borderRadius: '15px',
-  };
-  
-  const imageStyle = {
-    width: '200px',
-    borderRadius: '10px',
-    marginRight: '10px',
-    height: '150px'
-  };

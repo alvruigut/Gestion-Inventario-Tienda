@@ -63,10 +63,27 @@ export function EditarCategoria() {
   return (
     <div className="container">
       <form onSubmit={handleSubmit} className="form">
-        <input type="text" name="nombre" value={categoria.nombre} onChange={handleChange} placeholder="Nombre del producto" required className="input" />
+      <div style={inputwrapper}>
+           <input type="text" name="nombre" value={categoria.nombre} onChange={handleChange} placeholder="Nombre del producto" required className="input" />
+           <span style={asterisk}>*</span>
+
+      </div>
         <button type="submit" className="button">Editar categoria</button>
         <button type="button" onClick={handleCancelar} className="buttonC">Cancelar</button>
       </form>
     </div>
   );
+}
+
+const inputwrapper ={
+  position: 'relative',
+};
+
+const asterisk= {
+  position: 'absolute',
+  top:' 50%',
+  right: '10px ',
+  transform: 'translateY(-50%)',
+  color: 'black',
+  fontSize: '30px', 
 }

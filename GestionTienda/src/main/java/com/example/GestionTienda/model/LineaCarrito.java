@@ -1,8 +1,14 @@
 package com.example.GestionTienda.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.example.GestionTienda.util.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
@@ -17,7 +23,8 @@ public class LineaCarrito extends BaseEntity {
     @ManyToOne
     @JsonIgnore
     private Carrito carrito;
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn (name = "producto_id", referencedColumnName = "id")
     private Producto producto;
     private int cantidad;
 

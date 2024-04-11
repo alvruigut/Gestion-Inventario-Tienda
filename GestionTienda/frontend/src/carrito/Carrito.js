@@ -1,23 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Link ,useNavigate } from 'react-router-dom';
-
 export function Carrito() {
   const [carrito, setCarrito] = useState([]);
-  const [nuevoId, setNuevoId] = useState(null);
   const navigate = useNavigate();
 
+  const getAllCarritos = async () => {
+    try {
+      const response = await fetch('http://localhost:9000/carrito/allhoy');
+      const data = await response.json();
+      setCarrito(data);
+    } catch (error) {
+      console.error('Error al obtener los carritos', error);
+    }
+  };
+
   useEffect(() => {
-    const getAllCarritos = async () => {
-      try {
-        const response = await fetch('http://localhost:9000/carrito/allhoy');
-        const data = await response.json();
-
-        setCarrito(data);
-      } catch (error) {
-        console.error('Error al obtener los carritos', error);
-      }
-    };
-
     getAllCarritos();
   }, []);
 
@@ -30,57 +27,83 @@ export function Carrito() {
         }
       });
       const data = await response.json();
-      const nuevoId = data.id;
-      // Redirige al nuevo carrito creado
-      setNuevoId(nuevoId);
-      navigate(`/carrito/${nuevoId}`);
+      navigate(`/carrito/${data.id}`);
     } catch (error) {
       console.error('Error al crear un nuevo carrito', error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      console.log('Eliminando carrito con ID:', id);
+      const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar este carrito?');
+  
+      if (confirmDelete) {
+        const response = await fetch(`http://localhost:9000/carrito/eliminar/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (response.ok) {
+          console.log('Carrito eliminado exitosamente')
+          await getAllCarritos(); 
+        } else {
+          console.error('Error al eliminar el carrito');
+        }
+      } else {
+        console.log('Eliminación de carrito cancelada');
+      }
+    } catch (error) {
+      console.error('Error al enviar la solicitud de eliminación', error);
     }
   };
 
   return (
     <div style={containerStyle}>
       <div>
-        {/* Aquí agregamos un botón para crear un nuevo carrito */}
         <button onClick={handleCrearCarrito} style={categoryButtonStyle}>Nuevo Carrito</button>
       </div>
       {carrito.map((carrito) => (
         <div key={carrito.id} style={productStyle}>
-          <div style={letras}>Identificador: {carrito.id}</div>
-          <div style={letras}>Fecha: {carrito['Fecha Creacion']}</div>
+          <div>
+            <div style={letras}>Carrito: {carrito.id}</div>
+            <div style={letras}>Fecha: {carrito['Fecha Creacion']}</div>
+            <div style={letras}>Ganancias: {carrito.total}€</div>
+
+          </div>
+          <div style={cplus}>
+            <Link to={`/carrito/${carrito.id}`} style={categoryButtonStyle}>Ver Carrito </Link>
+            <button style={categoryButtonStyle} onClick={() => handleDelete(carrito.id)}>Eliminar</button>
+          </div>
         </div>
       ))}
+  
     </div>
   );
 }
-
 
 const cplus = {
   marginTop: '10px',
   marginLeft: '15px',
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'row',
 
 };
 
-const categoryButtonsStyle = {
-  display: 'flex',
-  justifyContent: 'center',
-  marginTop: '10px',
-  marginBottom: '15px',
-};
 
 const categoryButtonStyle = {
   backgroundColor: '#e6f7e6',
   color: 'black',
   border: 'none',
-  marginBottom: '20px', // Reducido de 100px a 20px
+  marginBottom: '15px', // Reducido de 100px a 20px
   textDecoration: 'none',
   fontSize: '25px',
-  padding: '10px',
+  padding: '7px',
   cursor: 'pointer',
   borderRadius: '5px',
+  marginRight: '10px',
 };
 
 
@@ -113,16 +136,7 @@ const confirmationStyle = {
 };
 
 
-const editButtonStyle = {
-  backgroundColor: 'blue', // Fondo verde oscuro
-  color: '#ffffff', // Texto en color blanco
-  padding: '10px 16px', // Ajusta el espaciado interno
-  borderRadius: '4px', // Bordes redondeados
-  textDecoration: 'none', // Sin subrayado
-  display: 'inline-block', // Alinear en línea
-  fontFamily: 'Arial, sans-serif',
-  justifyContent: 'center',
-};
+
 
 const editButtonStyleDelete = {
   backgroundColor: 'red', // Fondo verde oscuro
@@ -167,11 +181,5 @@ const productStyle = {
 
 };
 
-const imageStyle = {
-  width: '200px',
-  borderRadius: '10px',
-  marginRight: '10px',
-  height: '150px'
-};
 
 

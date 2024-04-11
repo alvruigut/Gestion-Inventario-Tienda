@@ -76,6 +76,11 @@ public class ProductoService {
         return productoRepository.findByName(nombre);
     }
     
+    @Transactional(readOnly = true)
+    public List<Producto> findByCategoriaId(Long id) throws DataAccessException {
+        return productoRepository.findByCategoriaId(id);
+    }
+
    //editar un producto
     public Producto editarProducto(String nombreProducto,PutProductoDto producto) throws DataAccessException{
         Categoria categoria = categoriaRepository.findByName(producto.getCategoria().getNombre());
@@ -88,6 +93,7 @@ public class ProductoService {
             productoExistente.setDescripcion(producto.getDescripcion());
             productoExistente.setPrecio(producto.getPrecio());
             productoExistente.setCantidadDisponible(producto.getCantidadDisponible());
+            productoExistente.setImagen(producto.getImagen());
             if (producto.getCantidadDisponible()>0){
                 productoExistente.setDisponible(true);
             }else{

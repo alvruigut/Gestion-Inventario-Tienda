@@ -16,7 +16,7 @@ import java.util.List;
 public class Morosos extends BaseEntity{
     
     @Column(name = "nombre")
-    @NonNull
+    @NonNull   
     private String nombre;
 
     @Column(name = "movil")

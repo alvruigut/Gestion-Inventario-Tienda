@@ -43,10 +43,31 @@ export function CrearCategoria() {
   return (
     <div className="container">
       <form onSubmit={handleSubmit} className="form">
-        <input type="text" name="nombre" onChange={handleChange} placeholder="Nombre de la categoria" required className="input" />
+        <div style={inputwrapper}> <input type="text"
+            name="nombre"
+            onChange={handleChange}
+            placeholder="Nombre de la categoria"
+            required
+            className="input"
+          />
+          <span style={asterisk}>*</span>
+        </div>
         <button type="submit" className="button">Crear Categoria</button>
         <button type="button" onClick={handleCancelar} className="buttonC">Cancelar</button>
       </form>
     </div>
   );
+  }
+
+const inputwrapper ={
+  position: 'relative',
+};
+
+const asterisk= {
+  position: 'absolute',
+  top:' 50%',
+  right: '10px ',
+  transform: 'translateY(-50%)',
+  color: 'black',
+  fontSize: '30px', 
 }

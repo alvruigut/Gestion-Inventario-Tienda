@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -95,6 +94,9 @@ public class CarritoController {
         return resultado;
     }
 
+
+
+
     @DeleteMapping("/eliminar/{productoId}/{carritoId}")
     public void eliminarDelCarrito(@PathVariable Long productoId, @PathVariable Long carritoId) {
         Producto producto = productoService.obtenerProductoPorId(productoId).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
@@ -102,17 +104,28 @@ public class CarritoController {
         carritoService.eliminarProductoDelCarrito(carrito, producto);
     }
 
+    @DeleteMapping("/eliminar/{carritoId}")
+    public void eliminarCarrito(@PathVariable Long carritoId) {
+        try{
+            carritoService.eliminarCarritoPorId(carritoId);
 
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
 
+    @DeleteMapping("/vaciar/{carritoId}")
+    public void vaciarCarrito(@PathVariable Long carritoId) {
+        carritoService.vaciarCarrito(carritoId);
+    }
 
+    @PutMapping("/aumentar/{productoName}/{carritoId}")
+    public Carrito aumentarCantidad(@PathVariable String productoName, @PathVariable Long carritoId) {
+        return carritoService.aumentarCantidadProducto(carritoId, productoName);
+    }
 
-
-
-
-
-
-    @DeleteMapping("/vaciar")
-    public void vaciarCarrito() {
-        carritoService.vaciarCarrito();
+    @PutMapping("/disminuir/{productoName}/{carritoId}")
+    public Carrito disminuirCantidad(@PathVariable String productoName, @PathVariable Long carritoId) {
+        return carritoService.disminuirCantidadProducto(carritoId, productoName);
     }
 }
