@@ -50,7 +50,8 @@ public class CarritoService {
                 .filter(linea -> linea.getProducto().getId().equals(producto.getId()))
                 .findFirst()
                 .orElse(null);
-
+        int stock = producto.getCantidadDisponible();
+        producto.setCantidadDisponible(stock -1);
         if (lineaExistente != null) {
 
             lineaExistente.aumentarCantidad();
@@ -59,8 +60,7 @@ public class CarritoService {
             LineaCarrito nuevaLinea = new LineaCarrito(producto, 1);
             nuevaLinea.setCarrito(carrito);
             carrito.getLineasCarrito().add(nuevaLinea);
-            int stock = producto.getCantidadDisponible();
-            producto.setCantidadDisponible(stock -1);
+
         }
 
         carritoRepository.save(carrito);

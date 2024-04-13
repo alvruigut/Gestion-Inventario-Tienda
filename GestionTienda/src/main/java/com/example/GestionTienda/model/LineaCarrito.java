@@ -45,6 +45,7 @@ public class LineaCarrito extends BaseEntity {
     }
 
    public double getbeneficio(){
+
         double costoTotal = producto.getPvp() * cantidad;// Costo total
         double ventaTotal = getTotal(); // Total de la venta
         double resultado = ventaTotal - costoTotal; // Beneficio
