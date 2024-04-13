@@ -11,7 +11,8 @@ public record PostProductoDto(String imagen,
                               double precio,
                               boolean disponible,
                               Categoria categoria,
-                              int cantidadDisponible) {
+                              int cantidadDisponible,
+                              double pvp) {
     public static PostProductoDto of(Producto p){
         return new PostProductoDto(
                 p.getImagen(),
@@ -20,7 +21,8 @@ public record PostProductoDto(String imagen,
                 p.getPrecio(),
                 p.isDisponible(),
                 p.getCategoria(),
-                p.getCantidadDisponible()
+                p.getCantidadDisponible(),
+                p.getPvp()
         );
     }
 

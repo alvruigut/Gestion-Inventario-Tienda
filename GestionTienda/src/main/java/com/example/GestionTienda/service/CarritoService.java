@@ -29,6 +29,7 @@ public class CarritoService {
                 .cantidad(0)
                 .fechaCreacion(LocalDateTime.now())
                 .lineasCarrito(new ArrayList<>())
+
                 .total(0.0)
                 .build();
         carritoRepository.save(carrito1);
@@ -58,6 +59,8 @@ public class CarritoService {
             LineaCarrito nuevaLinea = new LineaCarrito(producto, 1);
             nuevaLinea.setCarrito(carrito);
             carrito.getLineasCarrito().add(nuevaLinea);
+            int stock = producto.getCantidadDisponible();
+            producto.setCantidadDisponible(stock -1);
         }
 
         carritoRepository.save(carrito);
@@ -69,12 +72,17 @@ public class CarritoService {
         double total = carrito.getLineasCarrito().stream()
                 .mapToDouble(LineaCarrito::getTotal)
                 .sum();
+       double beneficio = carrito.getLineasCarrito().stream()
+                .filter(linea -> linea.getbeneficio() != 0)
+                .mapToDouble(LineaCarrito::getbeneficio).sum();
         Integer cantidad = carrito.getLineasCarrito().stream()
                 .mapToInt(LineaCarrito::getCantidad)
                                 .sum();
 
+
         carrito.setCantidad(cantidad);
         carrito.setTotal(total);
+        carrito.setBeneficio(beneficio);
         carritoRepository.save(carrito);
     }
 

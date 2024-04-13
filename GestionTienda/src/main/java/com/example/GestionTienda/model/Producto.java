@@ -26,6 +26,9 @@ public class Producto  extends BaseEntity{
     private String imagen;
     @Column(name = "disponible")
     private boolean disponible;
+    @Column(name = "pvp")
+    private double pvp;
+
     @Column(name = "cantidadDisponible")
     private Integer cantidadDisponible;
     @ManyToOne

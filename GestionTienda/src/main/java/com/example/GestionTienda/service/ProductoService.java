@@ -62,6 +62,7 @@ public class ProductoService {
              .nombre(postProductoDto.nombre())
              .descripcion(postProductoDto.descripcion())
              .precio(postProductoDto.precio())
+            .pvp(postProductoDto.pvp())
              .disponible(true)
              .categoria(categoria)
              .cantidadDisponible(postProductoDto.cantidadDisponible())

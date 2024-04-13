@@ -27,6 +27,10 @@ public class Carrito extends BaseEntity{
 
     @Column(name = "total")
     private double total;
+    @Column(name = "beneficio")
+    private double beneficio;
+
+
     
     @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LineaCarrito> lineasCarrito ;
@@ -42,6 +46,14 @@ public class Carrito extends BaseEntity{
                 .mapToDouble(LineaCarrito::getTotal)
                 .sum();
     }
+
+    public double calcularBeneficio(){
+        return lineasCarrito.stream()
+                .filter(linea -> linea.getbeneficio() != 0)
+                .mapToDouble(LineaCarrito::getbeneficio)
+                .sum();
+    }
+
 
 
 }

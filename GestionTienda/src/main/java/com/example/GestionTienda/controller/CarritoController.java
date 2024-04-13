@@ -35,6 +35,7 @@ public class CarritoController {
             map.put("id", carrito.getId());
             map.put("Fecha Creacion", carrito.getFechaCreacion());
             map.put("Cantidad de productos", carrito.getCantidad());
+            map.put("beneficio",carrito.calcularBeneficio());
             map.put("total", carrito.calcularTotal());
             return map;
         }).collect(Collectors.toList());
@@ -52,6 +53,7 @@ public class CarritoController {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                     String fechaFormateada = carrito.getFechaCreacion().format(formatter);
                     map.put("Fecha Creacion", fechaFormateada);
+                 //   map.put("Benficio",carrito.calcularBeneficio());
                     map.put("Cantidad de productos", carrito.getCantidad());
                     map.put("total", carrito.calcularTotal());
                     return map;
