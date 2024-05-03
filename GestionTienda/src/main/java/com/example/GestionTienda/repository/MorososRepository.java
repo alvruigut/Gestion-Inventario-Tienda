@@ -10,6 +10,7 @@ import com.example.GestionTienda.model.Morosos;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface MorososRepository extends JpaRepository<Morosos, Long>{
@@ -17,10 +18,8 @@ public interface MorososRepository extends JpaRepository<Morosos, Long>{
 @Query("select p from Morosos p")
 public List<Morosos> findAll2();
     
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM Morosos p WHERE p.nombre = :nombre")
-    void eliminarPorNombre(@Param("nombre") String nombre);
+
+    Optional<Morosos>findByNombre(@Param("nombre") String nombre);
 
     @Query("select p from Morosos p where p.nombre = :nombre")
     public Morosos findByName(String nombre);

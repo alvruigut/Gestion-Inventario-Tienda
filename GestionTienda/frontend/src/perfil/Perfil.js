@@ -48,7 +48,7 @@ export function Perfil() {
                   fechaCarrito.getDate() === fechaFiltro.getDate()
               );
           })
-          .reduce((total, carrito) => total + carrito.total, 0);
+          .reduce((total, carrito) => total + carrito.beneficio, 0);
 
       setGanancias(gananciasFiltradas);
   };
@@ -88,7 +88,7 @@ export function Perfil() {
                   style={{ width: '180px', height: '40px', fontSize: '18px', backgroundColor: '#6b8f68', border: 'none', borderRadius: '5px', marginBottom: '20px'}}
               />
           </div>
-          <h1 style={letras2}>Ingresos: {ganancias}€</h1> 
+          <h1 style={letras2}>Ingresos totales hoy: {ganancias}€</h1> 
 
           {perfil && (
               <div>
@@ -100,6 +100,7 @@ export function Perfil() {
                               <p style={letras}>Cantidad de productos: {carrito.cantidadProductos}</p>
                               <p style={letras}>Fecha: {carrito.fechaCreacion}</p>
                               <p style={letras}>Total: {carrito.total}€</p>
+                              <p style={letras}>Ganancias/Beneficio: {carrito.beneficio}€</p>
                           </div>
                       ))}
               </div>

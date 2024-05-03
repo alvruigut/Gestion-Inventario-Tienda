@@ -1,6 +1,13 @@
 package com.example.GestionTienda.Dto;
 
-public record GetProductoDto (String imagen,
+import com.example.GestionTienda.model.Categoria;
+
+public record GetProductoDto (Long id,
+        String imagen,
                               String nombre,
-                              double precio){
+                              double precio,
+                              String descripcion,
+                              double pvp,
+                              int cantidadDisponible,
+                              Categoria categoria){
 }

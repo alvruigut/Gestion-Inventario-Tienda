@@ -13,15 +13,17 @@ public class PutProductoDto {
     private String nombre;
     private String descripcion;
     private double precio;
+    private double pvp;
     private boolean disponible;
     private Categoria categoria;
     private int cantidadDisponible;
 
-    public PutProductoDto(String imagen, String nombre, String descripcion, double precio, boolean disponible,Categoria categoria, int cantidadDisponible) {
+    public PutProductoDto(String imagen, String nombre, String descripcion, double precio,double pvp, boolean disponible,Categoria categoria, int cantidadDisponible) {
         this.imagen = imagen;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
+        this.pvp = pvp;
         this.disponible = disponible;
         this.categoria = categoria;
         this.cantidadDisponible = cantidadDisponible;

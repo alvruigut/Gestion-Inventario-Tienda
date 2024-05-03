@@ -13,6 +13,7 @@ export function EditarProducto() {
   const [categorias, setCategorias] = useState([]);
   const [producto, setProducto] = useState({
     nombre: '',
+    pvp:0,
     precio: 0,
     descripcion: '',
     imagen: '',
@@ -161,18 +162,28 @@ export function EditarProducto() {
         <Gallery items={[{ src: producto.imagen }]} showPlayButton={false} showFullscreenButton={false} />
 
         <div style={inputwrapper}>
+        <label>Nombre</label>
         <input type="text" name="nombre" value={producto.nombre} onChange={handleChange} placeholder="Nombre del producto" required className="input" />
         <span style={asterisk}>*</span>
         </div>
+        <label>Descripción</label>
         <textarea name="descripcion" value={producto.descripcion} onChange={handleChange} placeholder="Descripción del producto" className="textarea"></textarea>
+        <label>Precio proveedor</label>
+        <div style={inputwrapper}>
+        <input type="text" name="pvp" value={producto.precio} onChange={handleChange} placeholder="Precio proveedor" required className="input" />
+        <span style={asterisk}>*</span>
+        </div>
+        <label>Precio</label>
         <div style={inputwrapper}>
         <input type="text" name="precio" value={producto.precio} onChange={handleChange} placeholder="Precio" required className="input" />
         <span style={asterisk}>*</span>
         </div>
+        <label>Cantidad disponible</label>
         <div style={inputwrapper}>
         <input type="number" value={producto.cantidadDisponible}  name="cantidadDisponible" onChange={handleChange} placeholder="Cantidad" required className="input" />
         <span style={asterisk}>*</span>
         </div>
+        <label>Categoria</label>
         <select name="categoria.nombre" onChange={handleChange} value={producto.categoria.nombre} required className="input">
         <option value="" disabled>Selecciona una categoría</option>
         {categorias.map((categoria) => (

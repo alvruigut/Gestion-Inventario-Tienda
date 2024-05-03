@@ -47,13 +47,9 @@ public class MorososController {
 
     //eliminar un moroso
     @DeleteMapping("/eliminar/{nombre}")
-    public ResponseEntity<String> eliminarMoroso(@PathVariable String nombre) {
-        try {
-            morososService.eliminarMoroso(nombre);
-            return new ResponseEntity<>("Moroso eliminado exitosamente", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error al eliminar el moroso", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<?> eliminaerMoroso(@PathVariable String nombre){
+        morososService.eliminarMoroso(nombre);
+        return ResponseEntity.status(204).build();
     }
     
     

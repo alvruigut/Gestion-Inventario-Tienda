@@ -5,7 +5,6 @@ import foto from '../imagenes/productoempty.png';
 export function AllProducts() {
   const [products, setProducts] = useState([]);
   const [categorias, setCategorias] = useState([]);
-
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [productToDelete, setProductToDelete] = useState('');
 
@@ -22,7 +21,6 @@ export function AllProducts() {
     getAllProducts();
   }, []);
 
-
   useEffect(() => {
     const getAllCategories = async () => {
       try {
@@ -36,14 +34,20 @@ export function AllProducts() {
     getAllCategories();
   }, []);
 
-
   const handleDeleteConfirmation = (productName) => {
     setProductToDelete(productName);
     setShowConfirmation(true);
   };
+
   const handleDelete = () => {
-    window.location.href = `/eliminar/${productToDelete}`;
-    setShowConfirmation(false);
+    const pin = prompt("Indique el PIN de 4 dígitos:");
+
+    if (pin === "1234") {
+      window.location.href = `/eliminar/${productToDelete}`;
+      setShowConfirmation(false);
+    } else {
+      alert("PIN incorrecto");
+    }
   };
 
   const handleCancelDelete = () => {
@@ -59,6 +63,7 @@ export function AllProducts() {
       console.error(`Error al obtener productos de la categoría ${categoriaNombre}`, error);
     }
   };
+
   const handleShowAllProducts = async () => {
     try {
       const response = await fetch('http://localhost:9000/api/productos/all');
@@ -68,6 +73,18 @@ export function AllProducts() {
       console.error('Error al obtener todos los productos', error);
     }
   };
+
+  const handleEditClick = (productName) => {
+    const pin = prompt("Indique el PIN de 4 dígitos:");
+
+    if (pin === "1234") {
+      window.location.href = `/editar/${productName}`;
+    } else {
+      alert("PIN incorrecto");
+    }
+};
+
+
   return (
     <div style={containerStyle}>
       <h1 style={{ color: '#ffffff', marginTop: '40px' }}>Productos del Juanillo</h1>
@@ -76,10 +93,9 @@ export function AllProducts() {
       </div>
       <div style={categoryButtonsStyle}>
         <button style={categoryButtonStyle} onClick={() => handleShowAllProducts()}> Todos  </button>
-        {categorias.map((categoria) => (<button key={categoria.id} style={categoryButtonStyle} onClick={() => handleCategoryFilter(categoria.nombre)} > {categoria.nombre}
-        </button>
+        {categorias.map((categoria) => (
+          <button key={categoria.id} style={categoryButtonStyle} onClick={() => handleCategoryFilter(categoria.nombre)} > {categoria.nombre}</button>
         ))}
-
       </div>
       {products.map((product) => (
         <div key={product.id} style={productStyle}>
@@ -87,16 +103,20 @@ export function AllProducts() {
           <div>
             <div style={letras}>{product.nombre}: {product.precio}€</div>
             <div style={letras}>{product.descripcion || 'N/A'}</div>
-            <div style={letras}> {product.disponible && product.cantidadDisponible>0 ? 'Stock: '+product.cantidadDisponible : 'No Disponible'}</div>
+            <div style={{ ...letras, color: product.cantidadDisponible < 3 ? 'yellow' : '#ffffff' }}>
+  {product.cantidadDisponible < 3 ? 'Queda poca cantidad' : 'Cantidad'}: {product.cantidadDisponible}
+</div>
+
+
             <div style={letras}>{'Categoria: '+product.categoria.nombre}</div>
           </div>
           <div style={cplus}>
-            <Link to={`/editar/${product.nombre}`} style={editButtonStyle}> Editar</Link>
+            
+             <button style={editButtonStyle} onClick={() => handleEditClick(product.nombre)}>editar</button>
             <button style={editButtonStyleDelete} onClick={() => handleDeleteConfirmation(product.nombre)}>Eliminar</button>
           </div>
         </div>
       ))}
-
       {showConfirmation && (
         <div style={confirmationStyle}>
           <p>{`¿Seguro que quieres eliminar el producto ${productToDelete}?`}</p>
@@ -108,21 +128,11 @@ export function AllProducts() {
   );
 };
 
-
-
-
-
-
-
-
-
-
 const cplus = {
   marginTop: '20px',
   marginLeft: '15px',
   display: 'flex',
   flexDirection: 'column',
-
 };
 
 const categoryButtonsStyle = {
@@ -133,11 +143,10 @@ const categoryButtonsStyle = {
 };
 
 const categoryButtonStyle = {
-  backgroundColor: '#e6f7e6', /* Color verde */
-  color: 'black', /* Letra blanca */
+  backgroundColor: '#e6f7e6',
+  color: 'black',
   border: 'none',
-  textDecoration: 'none', // Sin subrayado
-
+  textDecoration: 'none',
   fontSize: '25px',
   padding: '10px',
   margin: '5px',
@@ -145,23 +154,20 @@ const categoryButtonStyle = {
   borderRadius: '15px',
 };
 
-
 const yesButtonStyle = {
   background: '#28a745',
   color: '#ffffff',
-  padding: '8px 16px', // Ajusta el espaciado interno
+  padding: '8px 16px',
   marginLeft: '100px',
-  borderRadius: '4px', // Bordes redondeados
-
+  borderRadius: '4px',
 };
 
 const cancelButtonStyle = {
   background: '#dc3545',
   color: '#ffffff',
-  padding: '8px 16px', // Ajusta el espaciado interno
+  padding: '8px 16px',
   marginLeft: '15px',
-  borderRadius: '4px', // Bordes redondeados
-
+  borderRadius: '4px',
 };
 
 const confirmationStyle = {
@@ -174,30 +180,30 @@ const confirmationStyle = {
   transform: 'translate(-50%, -50%)',
 };
 
-
 const editButtonStyle = {
-  backgroundColor: 'blue', // Fondo verde oscuro
-  color: '#ffffff', // Texto en color blanco
-  padding: '10px 16px', // Ajusta el espaciado interno
-  borderRadius: '4px', // Bordes redondeados
-  textDecoration: 'none', // Sin subrayado
-  display: 'inline-block', // Alinear en línea
-  marginTop: '10px', // Espacio superior
-  marginLeft: '10px', // Espacio derecho
+  backgroundColor: 'blue',
+  color: '#ffffff',
+  padding: '10px 16px',
+  borderRadius: '4px',
+  textDecoration: 'none',
+  display: 'inline-block',
+  marginTop: '10px',
+  marginLeft: '10px',
   fontFamily: 'Arial, sans-serif',
   justifyContent: 'center',
 };
 
 const editButtonStyleDelete = {
-  backgroundColor: 'red', // Fondo verde oscuro
-  color: '#ffffff', // Texto en color blanco
-  padding: '10px 16px', // Ajusta el espaciado interno
-  borderRadius: '4px', // Bordes redondeados
-  textDecoration: 'none', // Sin subrayado
-  display: 'inline-block', // Alinear en línea
-  marginTop: '10px', // Espacio superior
-  marginLeft: '10px', // Espacio derecho
+  backgroundColor: 'red',
+  color: '#ffffff',
+  padding: '10px 16px',
+  borderRadius: '4px',
+  textDecoration: 'none',
+  display: 'inline-block',
+  marginTop: '10px',
+  marginLeft: '10px',
 };
+
 const letras = {
   fontSize: '20px',
   color: '#ffffff',
@@ -205,7 +211,6 @@ const letras = {
   fontFamily: 'Arial, sans-serif',
   fontWeight: 'bold',
 };
-
 
 const containerStyle = {
   display: 'flex',
@@ -233,7 +238,5 @@ const imageStyle = {
   width: '200px',
   borderRadius: '10px',
   marginRight: '10px',
-  height: '150px'
+  height: '150px',
 };
-
-

@@ -6,7 +6,7 @@ export function Carrito() {
 
   const getAllCarritos = async () => {
     try {
-      const response = await fetch('http://localhost:9000/carrito/allhoy');
+      const response = await fetch('http://localhost:9000/carrito/all/carritos');
       const data = await response.json();
       setCarrito(data);
     } catch (error) {
@@ -70,7 +70,8 @@ export function Carrito() {
           <div>
             <div style={letras}>Carrito: {carrito.id}</div>
             <div style={letras}>Fecha: {carrito['Fecha Creacion']}</div>
-            <div style={letras}>Ganancias: {carrito.total}€</div>
+            <div style={letras}>Total: {carrito.total}€</div>
+            <div style={letras}>Beneficio/Ganancias: {carrito.beneficio}€</div>
 
           </div>
           <div style={cplus}>

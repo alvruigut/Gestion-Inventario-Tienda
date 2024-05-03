@@ -47,6 +47,7 @@ public PerfilDto findJuan() {
 
         CarritoDTO carritoDto = new CarritoDTO();
         carritoDto.setFechaCreacion(carrito.getFechaCreacion().toLocalDate());
+        carritoDto.setBeneficio(carrito.getBeneficio());
         List<LineaCarritoAlvaroDTO> lineasCarritoDto = new ArrayList<>();
         for (LineaCarrito lineaCarrito : carrito.getLineasCarrito()) {
             LineaCarritoAlvaroDTO lineaCarritoDto = new LineaCarritoAlvaroDTO();

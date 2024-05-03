@@ -9,6 +9,8 @@ insert into Categoria(id,nombre) values (50,'Bebida alcoholica')
 insert into Categoria(id,nombre) values (60,'Fruta')
 insert into Categoria(id,nombre) values (70,'Verdura')
 insert into Categoria(id,nombre) values (80,'Sin Definir')
+insert into Categoria(id,nombre) values (90,'Productos agotados')
+insert into Categoria(id,nombre) values (92,'Productos no disponibles')
 
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,pvp,categoria_id) values (100,'coca',5.5,'bien fresquita','logo192.png',true,12,2,10)
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,pvp,categoria_id) values (200,'fanta',5.0,'bien fresquita',null,true,12,2.5,10)
@@ -22,6 +24,6 @@ insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_di
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,pvp,categoria_id) values (1000,'cubata',5.0,'pa beber',null,true,   12,2,50)
 insert into Producto (id,nombre,precio,descripcion,imagen,disponible,cantidad_disponible,pvp,categoria_id) values (1100,'cerve',5.0,'pa beber',null,true,    12,2,50)
 --fecha es LocalDateTime
-insert into carrito(id,cantidad, fecha_creacion, total) values (100,2, '2024-02-08T00:00:00', 10.0)
-insert into linea_carrito(cantidad,carrito_id,id, producto_id ) values (1,100,1,100)
-insert into  carrito_lineas_carrito(carrito_id, lineas_carrito_id) values (100,1)
+--insert into carrito(id,cantidad, fecha_creacion, total) values (100,2, '2024-02-08T00:00:00', 10.0)
+--insert into linea_carrito(cantidad,carrito_id,id, producto_id ) values (1,100,1,100)
+--insert into  carrito_lineas_carrito(carrito_id, lineas_carrito_id) values (100,1)

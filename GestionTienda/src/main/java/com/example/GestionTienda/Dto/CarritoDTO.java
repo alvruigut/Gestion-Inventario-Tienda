@@ -15,6 +15,7 @@ public  class CarritoDTO {
     private int cantidadProductos;
     private LocalDate fechaCreacion;
     private double total;
+    private double beneficio;
     private List<LineaCarritoAlvaroDTO> lineasCarrito;
 }
 

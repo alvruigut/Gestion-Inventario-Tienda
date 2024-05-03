@@ -20,13 +20,19 @@ public interface ProductoRepository extends JpaRepository<Producto,Long> {
 
     @Query("""
     select new com.example.GestionTienda.Dto.GetProductoDto(
-    p.imagen,
-    p.nombre,
-    p.precio
+        p.id,
+        p.imagen,
+        p.nombre,
+        p.precio,
+        p.descripcion,
+        p.pvp,
+        p.cantidadDisponible,
+        p.categoria
     ) from Producto p
-    where p.disponible = true
-    """)
+    where p.disponible = true and p.cantidadDisponible > 0
+""")
     public List<GetProductoDto> listaDeProductosDisponibles();
+
 
     Optional<PostProductoDto> findByNombreIgnoreCase(String nombre);
 
@@ -38,6 +44,8 @@ public interface ProductoRepository extends JpaRepository<Producto,Long> {
     @Query("DELETE FROM Producto p WHERE p.nombre = :nombre")
     void eliminarProductoPorNombre(@Param("nombre") String nombre);
 
+    Optional<Producto> findByNombre(String nombre);
+
     @Query("select p from Producto p where p.categoria.nombre = :nombre")
     public List<Producto> findByCategoryName(String nombre);
 
@@ -46,4 +54,8 @@ public interface ProductoRepository extends JpaRepository<Producto,Long> {
 
     @Query("select p from Producto p where p.categoria.id = :id")
     public List<Producto> findByCategoriaId(Long id);
+
+    @Override
+    @Transactional
+    public void delete(Producto producto);
 }

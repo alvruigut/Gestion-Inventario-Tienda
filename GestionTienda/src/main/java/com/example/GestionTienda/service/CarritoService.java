@@ -1,10 +1,10 @@
 package com.example.GestionTienda.service;
 
-import com.example.GestionTienda.model.Carrito;
-import com.example.GestionTienda.model.LineaCarrito;
-import com.example.GestionTienda.model.Producto;
+import com.example.GestionTienda.model.*;
 import com.example.GestionTienda.repository.CarritoRepository;
 
+import com.example.GestionTienda.repository.CategoriaRepository;
+import com.example.GestionTienda.repository.ProductoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,8 @@ import java.util.*;
 public class CarritoService {
 
     private final CarritoRepository carritoRepository;
-
+    private final ProductoRepository productoRepository;
+    private final CategoriaRepository categoriaRepository;
 
     public List<Carrito> findAllTodosLosCarritos(){
             return carritoRepository.findAll();
@@ -52,6 +53,10 @@ public class CarritoService {
                 .orElse(null);
         int stock = producto.getCantidadDisponible();
         producto.setCantidadDisponible(stock -1);
+        if (producto.getCantidadDisponible()<0){
+            Categoria categoria = categoriaRepository.findByName("Productos agotados");
+            producto.setCategoria(categoria);
+        }
         if (lineaExistente != null) {
 
             lineaExistente.aumentarCantidad();
@@ -60,7 +65,8 @@ public class CarritoService {
             LineaCarrito nuevaLinea = new LineaCarrito(producto, 1);
             nuevaLinea.setCarrito(carrito);
             carrito.getLineasCarrito().add(nuevaLinea);
-
+            List<Producto> productos = productoRepository.findAll();
+            ExcelWriter.writeDataToExcel(productos, "C:\\Users\\mgaan\\OneDrive\\Documentos\\Gestion-Inventario-Tienda\\excel.xlsx");
         }
 
         carritoRepository.save(carrito);

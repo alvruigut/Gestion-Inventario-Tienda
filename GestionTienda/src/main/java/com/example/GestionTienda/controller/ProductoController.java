@@ -3,6 +3,7 @@ package com.example.GestionTienda.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.example.GestionTienda.Dto.GetProductoDto;
 import com.example.GestionTienda.Dto.PostProductoDto;
 import com.example.GestionTienda.Dto.PutProductoDto;
 
@@ -48,8 +49,8 @@ public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
           return new ResponseEntity<>(productoService.findById(id), HttpStatus.OK);
       }
     @GetMapping("/all")
-    public ResponseEntity<List<Producto>> findall() {
-        List<Producto> getProductoDtos = productoService.findAll();
+    public ResponseEntity<List<GetProductoDto>> findall() {
+        List<GetProductoDto> getProductoDtos = productoService.findAll();
         return ResponseEntity.ok(getProductoDtos);
     }
     @PostMapping("/nuevo")
@@ -72,12 +73,12 @@ public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
 
     @DeleteMapping("/eliminar/{nombre}")
     public ResponseEntity<String> eliminarProducto(@PathVariable String nombre) {
-        try {
+        //try {
             productoService.eliminarProductoPorNombre(nombre);
             return new ResponseEntity<>("Producto eliminado exitosamente", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error al eliminar el producto", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+       // } catch (Exception e) {
+        //    return new ResponseEntity<>("Error al eliminar el producto", HttpStatus.INTERNAL_SERVER_ERROR);
+        //}
     }
 
     @GetMapping("/categoria/{nombre}")
@@ -89,4 +90,11 @@ public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
     public ResponseEntity<Map<String,Integer>> cantidadProductosPorCategoria() {
         return new ResponseEntity<>(productoService.listaDeCategorias(), HttpStatus.OK);
     }
+
+    @GetMapping("/exportar")
+    public String exportarProductos() {
+        productoService.exportProductsToExcel("C:\\Users\\mgaan\\OneDrive\\Documentos\\Gestion-Inventario-Tienda\\excel.xlsx");
+        return "Productos exportados con éxito";
+    }
+
 }

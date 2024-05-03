@@ -117,11 +117,28 @@ const updateTotal = (updatedItems) => {
     setPadding(0); 
   };
   const handleAddProductToCart = async (productId) => {
+    const productToAdd = products.find(product => product.id === productId);
+    if (!productToAdd) {
+      console.error('Producto no encontrado');
+      return;
+    }
+  
     const response = await fetch(`http://localhost:9000/carrito/agregar/${productId}/${idCarrito}`, {
-      method: 'POST', 
+      method: 'POST',
     });
-
-    if (response.ok) { 
+  
+    // Verifica si la cantidad a agregar es menor o igual al stock disponible
+    if (productToAdd.cantidadDisponible > 0) {
+      // Resta 1 al stock del producto
+      const updatedStock = productToAdd.cantidadDisponible - 1;
+      const updatedProducts = products.map(product => {
+        if (product.id === productId) {
+          return { ...product, cantidadDisponible: updatedStock };
+        }
+        return product;
+      });
+      setProducts(updatedProducts);
+  
       const updatedCartResponse = await fetch(`http://localhost:9000/carrito/ver/${idCarrito}`);
       const updatedCartData = await updatedCartResponse.json();
       setItem(updatedCartData.lineasCarrito);
@@ -129,9 +146,11 @@ const updateTotal = (updatedItems) => {
       handleAddItem();
       console.log('Producto añadido al carrito correctamente');
     } else {
-      console.error(`Error: ${response.status}`);
+      alert('No hay suficiente stock para este producto');
     }
   };
+  
+  
   const handleDeleteProductFromCart = async (productoId) => {
     try {
       const response = await fetch(`http://localhost:9000/carrito/eliminar/${productoId}/${idCarrito}`, {

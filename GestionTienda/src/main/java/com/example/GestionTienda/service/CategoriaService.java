@@ -34,14 +34,14 @@ public class CategoriaService {
 
     public Categoria nuevaCategoria(Categoria c){
         Categoria categoria = Categoria.builder()
-             .nombre(c.getNombre())
+             .nombre(c.getNombre().trim())
              .build();
              return categoriaRepository.save(categoria);
        }
 
 
     public Categoria editarCategoria(Categoria c,String nombre){
-        Categoria categoriaExistente= categoriaRepository.findByName(nombre);
+        Categoria categoriaExistente= categoriaRepository.findByName(nombre.trim());
         if(categoriaExistente == null){
             throw new RuntimeException("La categoria no existe");
         }else{
@@ -50,7 +50,7 @@ public class CategoriaService {
         }             
        }
        public void eliminaCategoria(String nombre) {
-        Categoria categoriaExistente = categoriaRepository.findByName(nombre);
+        Categoria categoriaExistente = categoriaRepository.findByName(nombre.trim());
         Categoria sinDefinir = categoriaRepository.findByName("Sin Definir");
         
         if (categoriaExistente == null) {
@@ -63,7 +63,7 @@ public class CategoriaService {
                     productoRepo.save(p); 
                 }
             }
-            categoriaRepository.eliminarCategoriaPorNombre(nombre);
+            categoriaRepository.eliminarCategoriaPorNombre(nombre.trim());
         }
     }
 

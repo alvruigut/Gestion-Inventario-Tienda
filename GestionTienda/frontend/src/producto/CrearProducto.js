@@ -12,6 +12,7 @@ export function CrearProducto() {
     imagen: '',
     nombre: '',
     descripcion: '',
+    pvp:0,
     precio: 0,
     disponible: true,
     cantidadDisponible: 0,
@@ -98,6 +99,14 @@ export function CrearProducto() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    
+    
+    if (producto.precio.includes(',')) {
+      alert('Juan pon punto en vez de coma');
+      return;
+    }
+
     const response = await fetch('http://localhost:9000/api/productos/nuevo', {
       method: 'POST',
       headers: {
@@ -105,10 +114,6 @@ export function CrearProducto() {
       },
       body: JSON.stringify(producto),
     });
-    if (producto.precio.includes(',')) {
-      alert('Juan pon punto en vez de coma');
-      return;
-    }
 
     if (response.ok) {
       console.log('Producto creado exitosamente');
@@ -133,19 +138,29 @@ export function CrearProducto() {
           {producto.imagen && <img src={producto.imagen} alt="Imagen seleccionada" className="dropzoneFoto" />}
         </div>
         <Gallery items={[{ src: producto.imagen }]} showPlayButton={false} showFullscreenButton={false} />
+        <label>Nombre</label>
         <div style={inputwrapper}>
         <input type="text" name="nombre" onChange={handleChange} placeholder="Nombre del producto" required className="input" />
         <span style={asterisk}>*</span>
         </div>
+        <label>Descripción</label>
         <textarea name="descripcion" onChange={handleChange} placeholder="Descripción del producto" className="textarea"></textarea>
+        <div style={inputwrapper}>
+        <label>Precio proveedor</label>
+        <input type="text" name="pvp" onChange={handleChange} placeholder="Precio del proveedor" required className="input" />
+        <span style={asterisk}>*</span>
+        </div>
+        <label>Precio</label>
         <div style={inputwrapper}>
         <input type="text" name="precio" onChange={handleChange} placeholder="Precio" required className="input" />
         <span style={asterisk}>*</span>
         </div>
+        <label>Cantidad disponible</label>
         <div style={inputwrapper}>
         <input type="number" name="cantidadDisponible" onChange={handleChange} placeholder="Cantidad" required className="input" />
         <span style={asterisk}>*</span>
         </div>
+        <label>Categoria</label>
         <select name="categoria.nombre" onChange={handleChange} value={producto.categoria.nombre} required className="input">
 
 

@@ -24,8 +24,7 @@ public class Morosos extends BaseEntity{
 
     @Column(name = "precio")
     private Double precio;
-    @Column(name = "productos")
-    private List<String> productos;
+
 
 
 

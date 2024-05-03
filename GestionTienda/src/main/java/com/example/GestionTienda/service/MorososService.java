@@ -1,5 +1,6 @@
 package com.example.GestionTienda.service;
 
+import org.apache.batik.css.engine.value.svg.OpacityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.GestionTienda.model.Morosos;
 import com.example.GestionTienda.repository.MorososRepository;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MorososService {
@@ -23,10 +25,10 @@ public class MorososService {
 
     public Morosos crearMoroso(Morosos m){
         Morosos moroso = Morosos.builder()
-        .nombre(m.getNombre())
+        .nombre(m.getNombre().trim())
         .movil(m.getMovil())
         .precio(m.getPrecio())
-        .productos(m.getProductos())
+
         .build();
         return morososRepository.save(moroso);
     }
@@ -37,13 +39,20 @@ public class MorososService {
         moroso.setNombre(m.getNombre());
         moroso.setMovil(m.getMovil());
         moroso.setPrecio(m.getPrecio());
-        moroso.setProductos(m.getProductos());
+
         return morososRepository.save(moroso);
     }
         
 
+
     public void eliminarMoroso(String nombre){
-        morososRepository.eliminarPorNombre(nombre);
+        Optional<Morosos> morosos = morososRepository.findByNombre(nombre.trim());
+        if (morosos.isPresent()){
+            morososRepository.delete(morosos.get());
+        }else {
+            throw new RuntimeException("no se encuentra al moroso");
+        }
+
     }
 
 

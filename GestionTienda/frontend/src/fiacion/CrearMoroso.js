@@ -8,7 +8,7 @@ export function CrearMoroso(){
       nombre: '',
       movil: '',
       precio: 0,
-      productos: [],
+      
     });
   
 
